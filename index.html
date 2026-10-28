@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12c2b3">
+<title>Meetup Tab · Riviera Maya Tech Builders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --teal:#12c2b3; --teal-d:#0a8f8a; --deep:#0b2a35; --ink:#10242c; --muted:#5d7176;
+  --sand:#f8f1e4; --sand-2:#efe4cf; --card:#fffdf8; --line:#e8dfcd;
+  --coral:#ff6f4e; --coral-d:#e85a3a; --sun:#ffc94a; --ok:#178f63; --warn:#c97a12; --bad:#cc3f33;
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--sand);color:var(--ink);font:16px/1.45 'DM Sans',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+body.noscroll{overflow:hidden}
+h1,h2,h3{font-family:'Bricolage Grotesque','DM Sans',sans-serif;letter-spacing:-.01em;margin:0;line-height:1.15}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+[hidden]{display:none!important}
+
+/* Hero */
+.hero{position:relative;color:#fff;padding:calc(12px + env(safe-area-inset-top)) 16px 52px;overflow:hidden;
+  background:
+    radial-gradient(circle at calc(100% - 44px) 18px,#ffd66b 0 40px,rgba(255,214,107,.32) 41px 60px,transparent 61px),
+    linear-gradient(165deg,#1bd4c2 0%,#10a8aa 48%,#0b6a83 100%)}
+.hero.compact{padding-bottom:44px}
+.hero-inner{max-width:560px;margin:0 auto;position:relative;z-index:1}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.hero.compact .hero-top{margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;text-decoration:none;letter-spacing:.03em;text-transform:uppercase}
+.brand-mark{width:26px;height:26px;border-radius:8px;background:#fff;color:var(--teal-d);display:grid;place-items:center;font:800 12px 'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:0}
+.hero h1{font-size:clamp(28px,7.6vw,40px);font-weight:800;line-height:1.04}
+.hero.compact h1{font-size:clamp(24px,6.4vw,32px)}
+.hero-sub{margin:6px 0 0;opacity:.94;font-size:15px}
+.hero-actions{display:flex;gap:8px;align-items:center}
+.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:30px;display:block}
+.icon-btn{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.2);display:grid;place-items:center;text-decoration:none;font-size:20px;border:0;color:#fff}
+.lang{display:flex;background:rgba(11,42,53,.45);border:0;border-radius:999px;padding:3px}
+.lang span{padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;color:#fff;opacity:.85}
+.lang span.on{background:#fff;color:var(--deep);opacity:1}
+.status{display:inline-block;font:700 11px 'DM Sans',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;vertical-align:2px;margin-left:4px}
+.status.open{background:#fff;color:var(--teal-d)}
+.status.closed{background:rgba(11,42,53,.35);color:#fff}
+
+/* Layout */
+.wrap{max-width:560px;margin:-12px auto 0;padding:0 16px calc(112px + env(safe-area-inset-bottom));position:relative}
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin:0 0 14px;border:1px solid rgba(232,223,205,.8);box-shadow:0 10px 26px -18px rgba(11,42,53,.45)}
+.card h2{font-size:20px;margin-bottom:10px}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.card-head h2{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.center{text-align:center}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all}
+.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.05em}
+.lbl:first-child{margin-top:0}
+.row{display:flex;gap:8px;align-items:center}
+.row > .input{flex:1;min-width:0}
+.wrap-row{flex-wrap:wrap}
+.link{color:var(--teal-d);font-weight:700;text-decoration:none}
+.banner{background:#fff4d6;border:1px solid #f3dd9c;color:#6b4c00;border-radius:14px;padding:10px 12px;font-size:13px;margin-bottom:14px}
+.empty{padding:22px 8px;text-align:center;color:var(--muted)}
+
+/* Inputs & buttons */
+.input,textarea.input,select.input{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:#fff;outline:none;font-size:16px}
+.input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(18,194,179,.18)}
+textarea.input{min-height:90px;resize:vertical;font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:14px;padding:12px 16px;background:var(--deep);color:#fff;font-weight:700;text-decoration:none;white-space:nowrap;transition:transform .08s}
+.btn:active{transform:scale(.97)}
+.btn.teal{background:var(--teal-d)}
+.btn.coral{background:var(--coral)}
+.btn.ghost{background:transparent;color:var(--deep);border:1.5px solid var(--line)}
+.btn.danger{background:transparent;color:var(--bad);border:1.5px solid #f0c9c4}
+.btn.small{padding:8px 12px;font-size:14px;border-radius:12px}
+.btn.block{display:flex;width:100%}
+.btn.big{padding:16px;font-size:17px;border-radius:16px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn-stack{display:grid;gap:8px;margin-top:12px}
+.btn-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.btn-stack > *,.btn-pair > *{min-width:0}
+.btn-stack .btn,.btn-pair .btn{white-space:normal;text-align:center;line-height:1.2}
+
+/* Segmented */
+.seg{display:flex;background:var(--sand-2);border-radius:14px;padding:4px;margin:0 0 14px;gap:4px}
+.seg button{flex:1;border:0;background:transparent;padding:10px 6px;border-radius:11px;font-weight:700;color:var(--muted)}
+.seg button.on{background:#fff;color:var(--deep);box-shadow:0 2px 8px -4px rgba(11,42,53,.4)}
+.badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--coral);color:#fff;font-size:12px;margin-left:4px}
+
+/* Search + chips */
+.searchbar{position:sticky;top:0;z-index:5;background:var(--sand);padding:8px 0 6px;margin:0 -16px 6px;padding-left:16px;padding-right:16px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;color:var(--deep)}
+.cat-h{font-size:17px;margin:18px 2px 8px;scroll-margin-top:118px;display:flex;align-items:baseline;gap:8px}
+.cat-h small{font:500 13px 'DM Sans',system-ui,sans-serif;color:var(--muted)}
+
+/* Menu items */
+.items{background:var(--card);border-radius:var(--r);border:1px solid rgba(232,223,205,.8);overflow:hidden}
+.item{display:flex;width:100%;text-align:left;gap:12px;align-items:center;padding:13px 14px;border:0;background:transparent;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item:active{background:#f3fbfa}
+.item-main{flex:1;min-width:0}
+.item-name{font-weight:700;display:block}
+.item-sub{display:block;font-size:13px;color:var(--muted);margin-top:1px}
+.item-price{font:800 16px 'Bricolage Grotesque',sans-serif;white-space:nowrap}
+.item-price small{font:500 11px 'DM Sans',system-ui,sans-serif;color:var(--muted);display:block;text-align:right}
+.plus{width:30px;height:30px;border-radius:10px;background:#e3f7f5;color:var(--teal-d);display:grid;place-items:center;font-weight:800;flex:none}
+
+/* Pills, stepper, switch */
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:8px 12px;font-weight:600;font-size:14px}
+.pill.on{border-color:var(--teal-d);background:#e3f7f5;color:var(--deep)}
+.pill[disabled]{opacity:.8}
+.stepper{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.stepper button{width:46px;height:44px;border:0;background:transparent;font-size:22px;font-weight:700}
+.stepper span{min-width:38px;text-align:center;font:800 18px 'Bricolage Grotesque',system-ui,sans-serif}
+.switch-row{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px;font-weight:700}
+.switch{width:50px;height:30px;border-radius:999px;border:0;background:var(--line);position:relative;flex:none}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch.on{background:var(--teal-d)}
+.switch.on::after{left:23px}
+
+/* Tab lines */
+.line{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}
+.line:first-child{border-top:0}
+.line-main{flex:1;min-width:0}
+.line-name{font-weight:700}
+.line-meta{font-size:13px;color:var(--muted)}
+.line-amt{font:800 16px 'Bricolage Grotesque',system-ui,sans-serif;white-space:nowrap}
+.line.paid .line-name,.line.paid .line-amt{color:var(--muted)}
+.x-btn{border:0;background:#f6efe3;color:var(--muted);width:30px;height:30px;border-radius:10px;font-size:16px;flex:none}
+.tick{color:var(--ok);font-weight:800}
+.totals{margin-top:6px}
+.tot-row{display:flex;justify-content:space-between;padding:4px 0;color:var(--muted)}
+.tot-row.grand{color:var(--ink);font:800 24px 'Bricolage Grotesque',system-ui,sans-serif;padding-top:10px;border-top:1.5px dashed var(--line);margin-top:6px}
+
+/* Bottom bar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--sand) 70%,rgba(248,241,228,0))}
+.tabbar button{max-width:528px;margin:0 auto;display:flex;width:100%;justify-content:space-between;align-items:center;border:0;border-radius:18px;padding:14px 18px;background:var(--deep);color:#fff;font-weight:700;box-shadow:0 12px 26px -12px rgba(11,42,53,.7)}
+.tabbar b{font:800 20px 'Bricolage Grotesque',system-ui,sans-serif}
+.tabbar .sub{opacity:.75;font-weight:500;font-size:13px;margin-left:6px}
+
+/* Lists */
+.row-link{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 2px;border-top:1px solid var(--line);text-decoration:none}
+.row-link:first-child{border-top:0}
+.chev{font-size:24px;color:var(--muted)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid rgba(232,223,205,.8);border-radius:16px;padding:12px 14px}
+.stat b{display:block;font:800 22px 'Bricolage Grotesque',system-ui,sans-serif}
+.stat span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.stat.hl{background:var(--deep);color:#fff;border-color:var(--deep)}
+.stat.hl span{color:rgba(255,255,255,.7)}
+
+/* People (organizer) */
+.person{border-top:1px solid var(--line)}
+.person:first-child{border-top:0}
+.person-head{display:flex;width:100%;align-items:center;gap:10px;padding:12px 0;border:0;background:transparent;text-align:left}
+.avatar{width:36px;height:36px;border-radius:12px;background:#e3f7f5;color:var(--teal-d);display:grid;place-items:center;font:800 15px 'Bricolage Grotesque',system-ui,sans-serif;flex:none}
+.person-body{padding:0 0 12px 46px}
+.owe{font:800 16px 'Bricolage Grotesque',system-ui,sans-serif;color:var(--coral-d)}
+.settled{font-weight:700;color:var(--ok);font-size:14px}
+
+/* QR */
+.qr-card{display:flex;gap:16px;align-items:center}
+.qr-box{background:#fff;padding:10px;border-radius:14px;border:1px solid var(--line);flex:none}
+.qr-box img,.qr-box canvas{display:block}
+@media (max-width:420px){.qr-card{flex-direction:column;text-align:center}}
+.qr-big{display:grid;place-items:center;padding:8px 0}
+.qr-big .qr-box{padding:14px}
+
+/* Bars */
+.bar-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;margin:8px 0;font-size:14px}
+.bar{grid-column:1/-1;height:8px;border-radius:99px;background:var(--sand-2);overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-d));border-radius:99px}
+.recon{border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:700}
+.recon.ok{background:#e4f6ee;color:var(--ok)}
+.recon.warn{background:#fff1dc;color:var(--warn)}
+.recon.bad{background:#fde7e4;color:var(--bad)}
+
+/* Sheet */
+#sheet-root{position:fixed;inset:0;z-index:50;display:none}
+#sheet-root.open{display:block}
+.backdrop{position:absolute;inset:0;background:rgba(11,42,53,.5)}
+.sheet{position:absolute;left:0;right:0;bottom:0;margin:0 auto;max-width:560px;max-height:90vh;overflow:auto;background:var(--card);border-radius:24px 24px 0 0;padding:10px 18px calc(22px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+.sheet.anim{animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 12px}
+.sheet-title{font-size:24px;margin-bottom:2px}
+.sheet .input{margin-top:6px}
+.sheet .btn.big{margin-top:18px}
+
+/* Waiter view */
+.waiter{padding-top:4px}
+.w-kicker{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal-d);margin:0}
+.waiter h2{font-size:34px;margin:4px 0 12px}
+.waiter ul{list-style:none;padding:0;margin:0;font-size:18px}
+.waiter li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.waiter .w-total{font:800 36px 'Bricolage Grotesque',system-ui,sans-serif;display:flex;justify-content:space-between;margin-top:12px}
+
+/* Toast */
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translateX(-50%) translateY(-20px);background:var(--deep);color:#fff;padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:all .2s;z-index:60;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%)}
+.footer-note{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="sheet-root"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script type="module">
+/* =====================================================================
+   CONFIG — paste your Firebase web config here to go live.
+   While apiKey starts with "PASTE", the app runs in DEMO MODE
+   (data is stored only in this browser; good for trying it out).
+   ===================================================================== */
+const CONFIG = {
+  firebase: {
+    apiKey: "AIzaSyBrnxZwN4NQ8a5gAV4Mp5GOCkmosBRynnQ",
+    authDomain: "rmtb-meetup-tab.firebaseapp.com",
+    projectId: "rmtb-meetup-tab",
+    storageBucket: "rmtb-meetup-tab.firebasestorage.app",
+    messagingSenderId: "409082901113",
+    appId: "1:409082901113:web:ab94c159e589e1350e1aa8"
+  },
+  useAnonymousAuth: true,     // enable "Anonymous" in Firebase Auth (see SETUP.md)
+  organizerPin: "364451",     // organizer PIN
+  firebaseVersion: "10.12.2"
+};
+
+/* ============================ utilities ============================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rand = (n = 6) => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => 'abcdefghijkmnpqrstuvwxyz23456789'[b % 32]).join('');
+const uid = () => rand(10);
+const slug = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || rand(4);
+const r2 = n => Math.round((+n || 0) * 100) / 100;
+const money = n => { const v = r2(n); return '$' + v.toLocaleString('es-MX', { minimumFractionDigits: Number.isInteger(v) ? 0 : 2, maximumFractionDigits: 2 }); };
+const clean = o => JSON.parse(JSON.stringify(o));
+const sum = (arr, f) => arr.reduce((a, x) => a + (+f(x) || 0), 0);
+const mkStore = s => ({ get(k){ try { return s.getItem(k); } catch(e){ return null; } }, set(k,v){ try { s.setItem(k, v); } catch(e){} }, del(k){ try { s.removeItem(k); } catch(e){} } });
+const ls = mkStore(window.localStorage);
+const ss = mkStore(window.sessionStorage);
+const DEMO = !CONFIG.firebase.apiKey || CONFIG.firebase.apiKey.startsWith('PASTE');
+const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const initials = n => String(n || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
+/* ============================== i18n ============================== */
+const DICT = {
+  en: {
+    appName: 'Meetup Tab', tagline: 'Order what you want. Pay for what you had.',
+    happening: 'Happening now', noOpen: 'No open meetups right now.', joinCode: 'Have a meetup link or code?', go: 'Go',
+    organizer: 'Organizer', demo: 'Demo mode: data lives only in this browser. Add the Firebase config to go live.',
+    checkinTitle: 'Check in', yourName: 'Your name', building: 'What are you building? (optional)', buildingPh: 'e.g. a booking app for dive shops',
+    join: 'Check in', already: 'Already checked in on another phone? Tap your name:', closedEvent: 'This meetup is closed for new orders.',
+    hi: 'Hola, {name} 👋', menu: 'Menu', myTab: 'My tab', search: 'Search the menu…', from: 'from',
+    customItem: 'Something not on the menu?', addCustom: '+ Add a custom item', itemName: 'Item name', price: 'Price (MXN)',
+    qty: 'Quantity', size: 'Size', choice: 'Choice', note: 'Note (optional)', split: 'Split with others', splitHint: 'Everyone selected pays an equal part.',
+    addToTab: 'Add to my tab', addFor: 'Add to {name}’s tab', added: 'Added to the tab 🍹', you: 'you',
+    yourTab: 'Your tab', unpaid: 'Not paid yet', subtotal: 'Subtotal', tip: 'Tip', total: 'Total',
+    nothingYet: 'Nothing here yet. Pick something from the menu 🌴', paidItems: 'Already paid', showWaiter: 'Show to waiter', iPaid: 'I paid',
+    paidHow: 'How did you pay?', cash: 'Cash', card: 'Card', transfer: 'Transfer', confirmPaid: 'Confirm payment · {amt}', paidOk: 'Marked as paid. ¡Gracias!',
+    splitN: 'split ÷{n}', removed: 'Removed', switchPerson: 'Not {name}? Switch person', switchConfirm: 'Switch to another person on this phone?',
+    onMenu: 'On the menu: {name}', waiterLead: 'Show this screen to the waiter so they can charge you.', allPaid: 'All paid ✓',
+    close: 'Close', cancel: 'Cancel', save: 'Save', delete: 'Delete', edit: 'Edit',
+    pin: 'Organizer PIN', unlock: 'Unlock', wrongPin: 'Wrong PIN',
+    events: 'Meetups', venues: 'Venues', insights: 'Insights', newEvent: '+ New meetup', title: 'Title', date: 'Date', venue: 'Venue',
+    tipDefault: 'Suggested tip', create: 'Create meetup', open: 'Open', closed: 'Closed', noEvents: 'No meetups yet.',
+    items: 'items', updated: 'Updated', editMenu: 'Edit menu', venueName: 'Venue name', location: 'Location', newVenue: '+ New venue',
+    createVenue: 'Create venue', needVenue: 'Create a venue first.', reuseMenu: 'The meetup uses this venue’s saved menu. Same place next month? Just pick it again.',
+    shareQR: 'Scan to open your tab', shareQRes: 'Escanea para abrir tu cuenta', copyLink: 'Copy link', copied: 'Copied ✓', openAttendee: 'Attendee view', bigQR: 'Big QR',
+    people: 'People', addWalkin: '+ Person', walkinHint: 'For someone without a phone. You can add items for them.',
+    claimed: 'Ordered', collected: 'Paid', outstanding: 'Outstanding', tips: 'Tips',
+    recon: 'Check against the venue’s bill', venueBill: 'Venue bill total (before tip)', check: 'Check',
+    balanced: 'Balanced: every peso on the bill is claimed ✓', unclaimed: '{amt} on the bill isn’t in anyone’s tab', overclaimed: 'Tabs are {amt} over the bill: look for duplicates',
+    noBill: 'When the venue brings the table’s bill, enter its total here.',
+    report: 'Venue report', avgPerson: 'Avg. per person', topItems: 'Top items', arrivals: 'Check-ins by hour', byCategory: 'By category',
+    copyES: 'Copy summary (ES)', copyEN: 'Copy summary (EN)', csv: 'Download CSV', closeEvent: 'Close meetup', reopen: 'Reopen meetup',
+    closeConfirm: 'Close this meetup? People can still mark items as paid, but can’t add new ones.',
+    menuTools: 'Menu', refreshMenu: 'Reload venue menu', menuRefreshed: 'Menu reloaded from venue', menuToolsHint: 'Edited the venue menu? Reload it into this meetup.',
+    markPaid: 'Mark paid', undoPaid: 'Undo payments', undoConfirm: 'Undo all payments for {name}?', addItem: '+ Item', waiter: 'Waiter view',
+    addCategory: '+ Category', importJson: 'Import / Export', aiPrompt: 'Copy AI prompt',
+    aiHint: 'New venue? Copy the prompt, paste it into Claude with photos of the menu, and paste the JSON it gives back below.',
+    applyJson: 'Replace menu with this JSON', invalidJson: 'That JSON doesn’t look like a menu', menuSaved: 'Menu saved',
+    categoryName: 'Category', nameEs: 'Name (Spanish, as printed)', nameEn: 'Name (English)', variants: 'Sizes / variants, one per line: ES | EN | price',
+    options: 'Choices at the same price (comma separated)', noteEs: 'Note (ES)', noteEn: 'Note (EN)', deleteConfirm: 'Delete this?',
+    noInsights: 'Numbers appear here once a meetup has orders.', meetupsN: 'meetups', peopleN: 'people', notFound: 'Meetup not found.',
+    loading: 'Loading…', perPerson: '{amt} each', addedBy: 'added by {name}', other: 'Other', emptyCat: 'No items yet.',
+    venueTotal: 'Total spend', noOrders: 'No orders yet', copyFail: 'Couldn’t copy. Long-press to copy instead.',
+    pinHint: 'Only the organizer needs this.', joinBtn: 'Join'
+  },
+  es: {
+    appName: 'Cuenta del Meetup', tagline: 'Pide lo que quieras. Paga lo que consumiste.',
+    happening: 'Ahora mismo', noOpen: 'No hay meetups abiertos ahora.', joinCode: '¿Tienes un enlace o código del meetup?', go: 'Ir',
+    organizer: 'Organizador', demo: 'Modo demo: los datos viven solo en este navegador. Agrega la configuración de Firebase para usarlo en vivo.',
+    checkinTitle: 'Registro', yourName: 'Tu nombre', building: '¿Qué estás construyendo? (opcional)', buildingPh: 'ej. una app de reservas para centros de buceo',
+    join: 'Registrarme', already: '¿Ya te registraste en otro teléfono? Toca tu nombre:', closedEvent: 'Este meetup ya no acepta pedidos.',
+    hi: 'Hola, {name} 👋', menu: 'Menú', myTab: 'Mi cuenta', search: 'Buscar en el menú…', from: 'desde',
+    customItem: '¿Algo que no está en el menú?', addCustom: '+ Agregar algo fuera del menú', itemName: 'Nombre', price: 'Precio (MXN)',
+    qty: 'Cantidad', size: 'Tamaño', choice: 'Opción', note: 'Nota (opcional)', split: 'Compartir con otros', splitHint: 'Cada persona seleccionada paga una parte igual.',
+    addToTab: 'Agregar a mi cuenta', addFor: 'Agregar a la cuenta de {name}', added: 'Agregado a la cuenta 🍹', you: 'tú',
+    yourTab: 'Tu cuenta', unpaid: 'Por pagar', subtotal: 'Subtotal', tip: 'Propina', total: 'Total',
+    nothingYet: 'Aún no hay nada. Elige algo del menú 🌴', paidItems: 'Ya pagado', showWaiter: 'Mostrar al mesero', iPaid: 'Ya pagué',
+    paidHow: '¿Cómo pagaste?', cash: 'Efectivo', card: 'Tarjeta', transfer: 'Transferencia', confirmPaid: 'Confirmar pago · {amt}', paidOk: 'Marcado como pagado. ¡Gracias!',
+    splitN: 'compartido ÷{n}', removed: 'Eliminado', switchPerson: '¿No eres {name}? Cambiar de persona', switchConfirm: '¿Cambiar a otra persona en este teléfono?',
+    onMenu: 'En el menú: {name}', waiterLead: 'Muéstrale esta pantalla al mesero para que te cobre.', allPaid: 'Todo pagado ✓',
+    close: 'Cerrar', cancel: 'Cancelar', save: 'Guardar', delete: 'Eliminar', edit: 'Editar',
+    pin: 'PIN de organizador', unlock: 'Entrar', wrongPin: 'PIN incorrecto',
+    events: 'Meetups', venues: 'Lugares', insights: 'Métricas', newEvent: '+ Nuevo meetup', title: 'Título', date: 'Fecha', venue: 'Lugar',
+    tipDefault: 'Propina sugerida', create: 'Crear meetup', open: 'Abierto', closed: 'Cerrado', noEvents: 'Aún no hay meetups.',
+    items: 'productos', updated: 'Actualizado', editMenu: 'Editar menú', venueName: 'Nombre del lugar', location: 'Ubicación', newVenue: '+ Nuevo lugar',
+    createVenue: 'Crear lugar', needVenue: 'Primero crea un lugar.', reuseMenu: 'El meetup usa el menú guardado de este lugar. ¿Mismo lugar el próximo mes? Solo elígelo otra vez.',
+    shareQR: 'Escanea para abrir tu cuenta', shareQRes: 'Scan to open your tab', copyLink: 'Copiar enlace', copied: 'Copiado ✓', openAttendee: 'Vista asistente', bigQR: 'QR grande',
+    people: 'Personas', addWalkin: '+ Persona', walkinHint: 'Para alguien sin teléfono. Puedes agregar productos por esa persona.',
+    claimed: 'Pedido', collected: 'Pagado', outstanding: 'Pendiente', tips: 'Propinas',
+    recon: 'Comparar con la cuenta del lugar', venueBill: 'Total de la cuenta del lugar (sin propina)', check: 'Comparar',
+    balanced: 'Cuadra: cada peso de la cuenta tiene dueño ✓', unclaimed: '{amt} de la cuenta no está en la cuenta de nadie', overclaimed: 'Las cuentas suman {amt} más que el ticket: revisa duplicados',
+    noBill: 'Cuando el lugar traiga la cuenta de la mesa, escribe aquí el total.',
+    report: 'Reporte para el lugar', avgPerson: 'Promedio por persona', topItems: 'Lo más pedido', arrivals: 'Registros por hora', byCategory: 'Por categoría',
+    copyES: 'Copiar resumen (ES)', copyEN: 'Copiar resumen (EN)', csv: 'Descargar CSV', closeEvent: 'Cerrar meetup', reopen: 'Reabrir meetup',
+    closeConfirm: '¿Cerrar este meetup? Aún se podrá marcar como pagado, pero no agregar productos.',
+    menuTools: 'Menú', refreshMenu: 'Recargar menú del lugar', menuRefreshed: 'Menú recargado', menuToolsHint: '¿Editaste el menú del lugar? Recárgalo en este meetup.',
+    markPaid: 'Marcar pagado', undoPaid: 'Deshacer pagos', undoConfirm: '¿Deshacer todos los pagos de {name}?', addItem: '+ Producto', waiter: 'Vista mesero',
+    addCategory: '+ Categoría', importJson: 'Importar / Exportar', aiPrompt: 'Copiar prompt para IA',
+    aiHint: '¿Lugar nuevo? Copia el prompt, pégalo en Claude con fotos del menú y pega aquí el JSON que te devuelva.',
+    applyJson: 'Reemplazar menú con este JSON', invalidJson: 'Ese JSON no parece un menú', menuSaved: 'Menú guardado',
+    categoryName: 'Categoría', nameEs: 'Nombre (español, como en el menú)', nameEn: 'Nombre (inglés)', variants: 'Tamaños / variantes, uno por línea: ES | EN | precio',
+    options: 'Opciones al mismo precio (separadas por comas)', noteEs: 'Nota (ES)', noteEn: 'Nota (EN)', deleteConfirm: '¿Eliminar?',
+    noInsights: 'Los números aparecen cuando un meetup tiene pedidos.', meetupsN: 'meetups', peopleN: 'personas', notFound: 'No encontramos ese meetup.',
+    loading: 'Cargando…', perPerson: '{amt} c/u', addedBy: 'agregado por {name}', other: 'Otro', emptyCat: 'Sin productos aún.',
+    venueTotal: 'Consumo total', noOrders: 'Sin pedidos aún', copyFail: 'No se pudo copiar. Mantén presionado para copiar.',
+    pinHint: 'Solo lo necesita quien organiza.', joinBtn: 'Entrar'
+  }
+};
+let lang = ls.get('rmtb_lang') || ((navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en');
+document.documentElement.lang = lang;
+const t = (k, vars = {}, L = lang) => String((DICT[L] && DICT[L][k]) ?? DICT.en[k] ?? k).replace(/\{(\w+)\}/g, (_, v) => vars[v] ?? '');
+const nm = (o, base = '') => lang === 'en' ? (o[base + 'en'] || o[base + 'es'] || '') : (o[base + 'es'] || o[base + 'en'] || '');
+const fmtDate = d => { if (!d) return ''; const x = new Date(d + 'T12:00:00'); return isNaN(x) ? d : x.toLocaleDateString(lang === 'es' ? 'es-MX' : 'en-US', { weekday: 'short', day: 'numeric', month: 'short' }); };
+
+/* ============================ seed menu ============================ */
+const V = (es, en, price) => ({ es, en, price });
+const I = (es, en, price, extra = {}) => ({ id: slug(es), es, en, price, ...extra });
+const STYLES = ['Mojo de ajo', 'Diabla', 'Empanizado', 'Mantequilla'];
+const SEED_VENUE = {
+  id: 'dia-noche-puerto-morelos',
+  name: 'Día & Noche Beach Club',
+  location: 'Puerto Morelos, Quintana Roo',
+  menu: { categories: [
+    { id: 'ceviche', es: 'Ceviche o coctel', en: 'Ceviche or seafood cocktail', items: [
+      I('Ceviche / coctel de camarón', 'Shrimp ceviche / cocktail', null, { variants: [V('Mediano', 'Medium', 280), V('Grande', 'Large', 380)], options: ['Ceviche', 'Coctel'] }),
+      I('Ceviche / coctel de pulpo', 'Octopus ceviche / cocktail', null, { variants: [V('Mediano', 'Medium', 280), V('Grande', 'Large', 380)], options: ['Ceviche', 'Coctel'] }),
+      I('Ceviche / coctel de pescado', 'Fish ceviche / cocktail', null, { variants: [V('Mediano', 'Medium', 250), V('Grande', 'Large', 350)], options: ['Ceviche', 'Coctel'] }),
+      I('Ceviche / coctel mixto', 'Mixed ceviche / cocktail', null, { variants: [V('Mediano', 'Medium', 300), V('Grande', 'Large', 400)], options: ['Ceviche', 'Coctel'], note_es: 'Camarón, pulpo y pescado', note_en: 'Shrimp, octopus and fish' })
+    ]},
+    { id: 'tostadas', es: 'Tostadas', en: 'Tostadas', items: [
+      I('Tostada de camarón', 'Shrimp tostada', 80),
+      I('Tostada de pulpo', 'Octopus tostada', 80),
+      I('Tostada de pescado', 'Fish tostada', 70),
+      I('Tostada mixta', 'Mixed tostada', 90, { note_es: 'Camarón, pulpo y pescado', note_en: 'Shrimp, octopus and fish' })
+    ]},
+    { id: 'mariscos', es: 'Mariscos', en: 'Seafood', items: [
+      I('Filete de pescado blanco', 'White fish fillet', 250, { options: STYLES }),
+      I('Camarón', 'Shrimp plate', 250, { options: STYLES }),
+      I('Camarón para pelar (½ kilo)', 'Peel-and-eat shrimp (½ kg)', 500),
+      I('Pulpo frito', 'Fried octopus', 350),
+      I('Tacos de pescado (3)', 'Fish tacos (3)', 180),
+      I('Tacos de camarón (3)', 'Shrimp tacos (3)', 200),
+      I('Quesadillas de camarón', 'Shrimp quesadillas', 220),
+      I('Pescado frito por kilo', 'Fried whole fish (per kg)', 450),
+      I('Ensalada de camarón', 'Shrimp salad', 200)
+    ]},
+    { id: 'especialidades', es: 'Especialidades', en: 'House specials', items: [
+      I('Tostada de aguachile', 'Aguachile tostada', 90),
+      I('Aguachile', 'Aguachile', 300),
+      I('Aguachile salsa negra', 'Aguachile in black sauce', 350),
+      I('Tortilla rellena de camarón', 'Shrimp-stuffed tortilla', 220),
+      I('Quesadilla nixtamal de camarón', 'Nixtamal shrimp quesadilla', 230)
+    ]},
+    { id: 'snacks', es: 'Snacks', en: 'Snacks', items: [
+      I('Nachos', 'Nachos', null, { variants: [V('Con queso', 'With cheese', 150), V('Con pollo', 'With chicken', 180), V('Con arrachera', 'With skirt steak', 220)] }),
+      I('Alitas (8 piezas)', 'Wings (8 pcs)', 190, { options: ['BBQ', 'Buffalo'] }),
+      I('Hot dog', 'Hot dog', null, { variants: [V('Sencillo', 'Classic', 90), V('Con tocino', 'With bacon', 100)] }),
+      I('Hamburguesa', 'Burger', null, { variants: [V('Sencilla', 'Classic', 150), V('Con tocino', 'With bacon', 160)] }),
+      I('Hamburguesa de pollo', 'Chicken burger', 200),
+      I('Hamburguesa de camarón', 'Shrimp burger', 230),
+      I('Papas fritas', 'French fries', 100),
+      I('Fajitas', 'Fajitas', null, { variants: [V('De pollo', 'Chicken', 150), V('De arrachera', 'Skirt steak', 220)] }),
+      I('Tacos (4)', 'Tacos (4)', null, { variants: [V('De pollo', 'Chicken', 130), V('De arrachera', 'Skirt steak', 220)] }),
+      I('Quesadillas (3)', 'Quesadillas (3)', null, { variants: [V('De queso', 'Cheese', 100), V('De pollo', 'Chicken', 150), V('De arrachera', 'Skirt steak', 170)] }),
+      I('Orden de arrachera', 'Skirt steak plate', 220, { note_es: 'Con arroz y ensalada', note_en: 'With rice and salad' }),
+      I('Guacamole', 'Guacamole', 100),
+      I('Orden de aguacate', 'Side of avocado', 75)
+    ]},
+    { id: 'cerveza', es: 'Cerveza', en: 'Beer', items: [
+      I('Tecate Light', 'Tecate Light', 65), I('Indio', 'Indio', 65), I('XX Lager', 'XX Lager', 65), I('XX Ámbar', 'XX Ámbar', 65), I('Sol', 'Sol', 65),
+      I('Bohemia Oscura', 'Bohemia Oscura', 70), I('Heineken', 'Heineken', 70),
+      I('Cerveza de cuartito', 'Small beer (cuartito)', 35, { options: ['Tecate Light', 'XX Lager', 'Indio', 'Sol'] }),
+      I('Vaso chelado', 'Chelada glass (lime & salt)', 40), I('Vaso michelado', 'Michelada glass', 50), I('Vaso ojo rojo', 'Ojo rojo glass', 60),
+      I('Chelada', 'Chelada', null, { variants: [V('½ litro', '½ liter', 100), V('1 litro', '1 liter', 130)] }),
+      I('Michelada', 'Michelada', null, { variants: [V('½ litro', '½ liter', 105), V('1 litro', '1 liter', 135)] }),
+      I('Ojo rojo', 'Ojo rojo', null, { variants: [V('½ litro', '½ liter', 115), V('1 litro', '1 liter', 170)] }),
+      I('Cubeta (5)', 'Beer bucket (5)', null, { variants: [V('Sol / Tecate Light / XX Lager / XX Ámbar / Indio', 'Sol / Tecate Light / XX Lager / XX Ámbar / Indio', 290), V('Bohemia / Heineken', 'Bohemia / Heineken', 300)] }),
+      I('Cubeta de cuartito (5)', 'Bucket of small beers (5)', 150, { options: ['Tecate Light', 'XX Lager', 'Indio', 'Sol'] })
+    ]},
+    { id: 'refrescos', es: 'Refrescos y aguas', en: 'Soft drinks & water', items: [
+      I('Agua natural', 'Still water', 30), I('Agua mineral', 'Sparkling water', 30),
+      I('Coca Cola', 'Coca-Cola', 40, { options: ['Normal', 'Light'] }), I('Fanta / Sprite / Fresca', 'Fanta / Sprite / Fresca', 40, { options: ['Fanta', 'Sprite', 'Fresca'] }),
+      I('Naranjada', 'Orangeade', 30), I('Limonada', 'Lemonade', 50), I('Limonada mineral', 'Sparkling lemonade', 50), I('Jarra de limonada', 'Lemonade pitcher', 120)
+    ]},
+    { id: 'cocteles', es: 'Cócteles', en: 'Cocktails', items: [
+      ...['Margarita', 'Piña Colada', 'Mojito', 'Bloody Mary', 'Tequila Sunrise', 'Daiquiri', 'Cuba Libre', 'Paloma'].map(n => I(n, n, 100)),
+      I('Clamato preparado', 'Clamato (prepared)', 100), I('Sangría', 'Sangria', 100),
+      I('Piñada', 'Piñada (pineapple)', 80), I('Fresada', 'Fresada (strawberry)', 80),
+      I('Smoothie', 'Smoothie', 80, { options: ['Mango', 'Piña', 'Fresa', 'Coco'] })
+    ]},
+    { id: 'tequila', es: 'Tequila', en: 'Tequila', items: [
+      I('Jimador', 'Jimador', 120), I('José Cuervo Especial', 'José Cuervo Especial', 120), I('José Cuervo Tradicional', 'José Cuervo Tradicional', 130),
+      I('Cazadores', 'Cazadores', 120), I('Centenario Reposado', 'Centenario Reposado', 120), I('Don Julio Blanco', 'Don Julio Blanco', 140),
+      I('Don Julio Reposado', 'Don Julio Reposado', 140), I('Don Julio Añejo', 'Don Julio Añejo', 160), I('Don Julio 70', 'Don Julio 70', 200),
+      I('Maestro Dobel Diamante', 'Maestro Dobel Diamante', 180)
+    ]},
+    { id: 'mezcal', es: 'Mezcal', en: 'Mezcal', items: [
+      I('Alipús', 'Alipús', 120), I('Montes Lobo', 'Montes Lobo', 120), I('Zignum', 'Zignum', 120), I('400 Conejos', '400 Conejos', 140), I('Monte Lobo', 'Monte Lobo', 150)
+    ]},
+    { id: 'ron', es: 'Ron', en: 'Rum', items: [
+      I('Bacardí Blanco', 'Bacardí Blanco', 120), I('Bacardí Añejo', 'Bacardí Añejo', 130), I('Bacardí Solera', 'Bacardí Solera', 130),
+      I('Appleton Estate', 'Appleton Estate', 130), I('Captain Morgan', 'Captain Morgan', 130)
+    ]},
+    { id: 'whisky', es: 'Whisky', en: 'Whisky', items: [
+      I('J&B', 'J&B', 100), I('Johnnie Walker Red Label', 'Johnnie Walker Red Label', 140), I('Johnnie Walker Black Label', 'Johnnie Walker Black Label', 180),
+      I("Buchanan's", "Buchanan's", 190), I("Jack Daniel's", "Jack Daniel's", 140)
+    ]},
+    { id: 'vodka', es: 'Vodka', en: 'Vodka', items: [ I('Wyborowa', 'Wyborowa', 130), I('Smirnoff', 'Smirnoff', 120), I('Absolut', 'Absolut', 130) ]},
+    { id: 'brandy-licores', es: 'Brandy y licores', en: 'Brandy & liqueurs', items: [
+      I('Don Pedro', 'Don Pedro', 120), I('Torres 10', 'Torres 10', 140), I('Baileys', 'Baileys', 120), I('Licor 43', 'Licor 43', 120), I('Kahlúa', 'Kahlúa', 120)
+    ]},
+    { id: 'vinos', es: 'Vinos', en: 'Wine', items: [ I('Copa de vino tinto', 'Glass of red wine', 120), I('Copa de vino blanco', 'Glass of white wine', 100) ]},
+    { id: 'extras', es: 'Extras', en: 'Extras', items: [
+      I('Renta de palapa familiar', 'Family palapa rental', 500, { note_es: '2 camastros, 1 mesita, 4 sillas, 1 mesa', note_en: '2 loungers, side table, 4 chairs, 1 table' })
+    ]}
+  ]}
+};
+
+/* Normalizes any menu (seed, editor, AI JSON) into a safe shape */
+function normalizeMenu(m) {
+  if (!m || !Array.isArray(m.categories)) throw new Error('bad menu');
+  const seenC = new Set(), seenI = new Set();
+  const uniq = (id, set) => { let x = id, n = 2; while (set.has(x)) x = id + '-' + n++; set.add(x); return x; };
+  const num = v => (v === null || v === undefined || v === '' || isNaN(+v)) ? null : +v;
+  return { categories: m.categories.map(c => ({
+    id: uniq(slug(c.id || c.es || c.en), seenC),
+    es: String(c.es || c.en || '').trim() || '—', en: String(c.en || c.es || '').trim() || '—',
+    items: (Array.isArray(c.items) ? c.items : []).map(it => {
+      const variants = (Array.isArray(it.variants) ? it.variants : []).map(v => ({ es: String(v.es || v.en || '').trim(), en: String(v.en || v.es || '').trim(), price: num(v.price) })).filter(v => v.es && v.price !== null);
+      const out = { id: uniq(slug(it.id || it.es || it.en), seenI), es: String(it.es || it.en || '').trim(), en: String(it.en || it.es || '').trim(), price: variants.length ? null : num(it.price) };
+      if (variants.length) out.variants = variants;
+      const options = (Array.isArray(it.options) ? it.options : []).map(o => String(o).trim()).filter(Boolean);
+      if (options.length) out.options = options;
+      if (it.note_es) out.note_es = String(it.note_es); if (it.note_en) out.note_en = String(it.note_en);
+      return out;
+    }).filter(it => it.es && (it.variants || it.price !== null))
+  }))};
+}
+const AI_PROMPT = `Extract the restaurant menu in the attached photos into JSON. Return ONLY JSON with exactly this shape:
+{"categories":[{"es":"Spanish category name","en":"English category name","items":[
+  {"es":"Item name exactly as printed","en":"English translation","price":120},
+  {"es":"Item with sizes","en":"...","variants":[{"es":"Mediano","en":"Medium","price":280},{"es":"Grande","en":"Large","price":380}]},
+  {"es":"Item with free choices","en":"...","price":190,"options":["BBQ","Buffalo"],"note_es":"optional note","note_en":"optional note"}
+]}]}
+Rules: prices are plain numbers in MXN (no $ sign). Use "variants" when the same dish has different sizes or prices (then omit "price"). Use "options" for choices that don't change the price. Keep brand names as printed. Don't invent items or prices; if a price is unreadable, skip the item.`;
+
+/* ============================== store ============================== */
+const splitPath = p => p.split('/').filter(Boolean);
+function setDeep(obj, dotted, val) { const ks = dotted.split('.'); let o = obj; for (let i = 0; i < ks.length - 1; i++) { if (typeof o[ks[i]] !== 'object' || o[ks[i]] === null) o[ks[i]] = {}; o = o[ks[i]]; } o[ks[ks.length - 1]] = val; }
+
+function makeLocalStore() {
+  const KEY = 'rmtb_tab_demo_v1';
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
+  let db = load();
+  const listeners = new Set();
+  const cp = o => o == null ? null : JSON.parse(JSON.stringify(o));
+  const notify = () => listeners.forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} queueMicrotask(notify); };
+  window.addEventListener('storage', e => { if (e.key === KEY) { db = load(); notify(); } });
+  const colDocs = col => { const pre = col + '/'; const out = []; for (const k in db) if (k.startsWith(pre) && !k.slice(pre.length).includes('/')) out.push({ id: k.slice(pre.length), ...cp(db[k]) }); return out; };
+  return {
+    async get(p) { return cp(db[p]); },
+    async set(p, d) { db[p] = cp(d); save(); },
+    async update(p, patch) { const cur = db[p] || {}; for (const [k, v] of Object.entries(patch)) setDeep(cur, k, cp(v)); db[p] = cur; save(); },
+    async add(col, d) { const id = uid(); db[col + '/' + id] = cp(d); save(); return id; },
+    async del(p) { delete db[p]; save(); },
+    async list(col) { return colDocs(col); },
+    onDoc(p, cb) { const fn = () => cb(cp(db[p])); listeners.add(fn); queueMicrotask(fn); return () => listeners.delete(fn); },
+    onCol(col, cb) { const fn = () => cb(colDocs(col)); listeners.add(fn); queueMicrotask(fn); return () => listeners.delete(fn); }
+  };
+}
+
+async function makeFirebaseStore() {
+  const v = CONFIG.firebaseVersion;
+  const [{ initializeApp }, fs, au] = await Promise.all([
+    import(`https://www.gstatic.com/firebasejs/${v}/firebase-app.js`),
+    import(`https://www.gstatic.com/firebasejs/${v}/firebase-firestore.js`),
+    import(`https://www.gstatic.com/firebasejs/${v}/firebase-auth.js`)
+  ]);
+  const app = initializeApp(CONFIG.firebase);
+  const db = fs.getFirestore(app);
+  if (CONFIG.useAnonymousAuth) await au.signInAnonymously(au.getAuth(app));
+  const d = p => fs.doc(db, ...splitPath(p));
+  const c = p => fs.collection(db, ...splitPath(p));
+  const fail = err => { console.error(err); toast('⚠️ ' + (err.code || err.message || 'Firebase error')); };
+  return {
+    async get(p) { const s = await fs.getDoc(d(p)); return s.exists() ? s.data() : null; },
+    async set(p, data) { await fs.setDoc(d(p), clean(data)); },
+    async update(p, patch) { await fs.updateDoc(d(p), clean(patch)); },
+    async add(col, data) { const id = uid(); await fs.setDoc(d(col + '/' + id), clean(data)); return id; },
+    async del(p) { await fs.deleteDoc(d(p)); },
+    async list(col) { const s = await fs.getDocs(c(col)); return s.docs.map(x => ({ id: x.id, ...x.data() })); },
+    onDoc(p, cb) { return fs.onSnapshot(d(p), s => cb(s.exists() ? s.data() : null), fail); },
+    onCol(col, cb) { return fs.onSnapshot(c(col), s => cb(s.docs.map(x => ({ id: x.id, ...x.data() }))), fail); }
+  };
+}
+let store;
+
+/* ============================ UI helpers ============================ */
+let ACTS = {}, cleanups = [];
+const GLOBAL_ACTS = {
+  lang: () => { lang = lang === 'en' ? 'es' : 'en'; ls.set('rmtb_lang', lang); document.documentElement.lang = lang; route(); },
+  closeSheet: () => closeSheet()
+};
+const setActs = o => { ACTS = { ...o }; };
+const addActs = o => Object.assign(ACTS, o);
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  const fn = ACTS[el.dataset.act] || GLOBAL_ACTS[el.dataset.act];
+  if (fn) { e.preventDefault(); Promise.resolve(fn(el, e)).catch(err => { console.error(err); toast('⚠️ ' + (err.message || err)); }); }
+});
+const setHTML = (sel, html) => { const el = typeof sel === 'string' ? $(sel) : sel; if (el) el.innerHTML = html; return el; };
+
+let toastTimer;
+function toast(msg) { const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2200); }
+
+function openSheet(html) {
+  const root = $('#sheet-root');
+  const existing = root.querySelector('.sheet');
+  if (existing) { const st = existing.scrollTop; existing.innerHTML = '<div class="grab"></div>' + html; existing.scrollTop = st; return; }
+  root.innerHTML = `<div class="backdrop" data-act="closeSheet"></div><div class="sheet anim" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;
+  root.classList.add('open'); document.body.classList.add('noscroll');
+}
+function closeSheet() { const root = $('#sheet-root'); root.classList.remove('open'); root.innerHTML = ''; document.body.classList.remove('noscroll'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); toast(t('copied')); return; } catch (e) {}
+  const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast(t('copied')); } catch (e) { toast(t('copyFail')); } ta.remove();
+}
+
+const WAVE = `<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,28 C180,58 360,4 600,22 C840,40 1020,58 1200,30 C1300,16 1380,18 1440,26 L1440,60 L0,60 Z" fill="#f8f1e4"/></svg>`;
+function hero({ title, sub = '', back = null, compact = false }) {
+  const left = back ? `<a class="icon-btn" href="${back}" aria-label="Back">←</a>` : `<a class="brand" href="#/"><span class="brand-mark">RM</span>Tech Builders</a>`;
+  return `<header class="hero ${compact ? 'compact' : ''}"><div class="hero-inner"><div class="hero-top">${left}<div class="hero-actions">
+    <button class="lang" data-act="lang" aria-label="Language / Idioma"><span class="${lang === 'en' ? 'on' : ''}">EN</span><span class="${lang === 'es' ? 'on' : ''}">ES</span></button></div></div>
+    <h1>${title}</h1>${sub ? `<p class="hero-sub">${sub}</p>` : ''}</div>${WAVE}</header>`;
+}
+const demoBanner = () => DEMO ? `<div class="banner">🧪 ${t('demo')}</div>` : '';
+const statusChip = ev => `<span class="status ${ev.status}">${t(ev.status === 'open' ? 'open' : 'closed')}</span>`;
+const eventUrl = id => location.origin + location.pathname + '#/e/' + id;
+
+/* ============================ domain logic ============================ */
+const itemFrom = item => item.variants?.length ? Math.min(...item.variants.map(v => +v.price)) : +item.price;
+function orderLabel(o, L = lang) {
+  const name = L === 'en' ? (o.name_en || o.name_es) : (o.name_es || o.name_en);
+  const variant = L === 'en' ? (o.variant_en || o.variant_es) : (o.variant_es || o.variant_en);
+  return [name, variant, o.option].filter(Boolean).join(' · ');
+}
+function personLines(attId, orders) {
+  return orders.filter(o => Array.isArray(o.shares) && o.shares.includes(attId)).map(o => ({
+    o, amount: r2(o.unitPrice * o.qty / o.shares.length), paid: !!(o.paid && o.paid[attId])
+  }));
+}
+function personTotals(attId, orders) {
+  const lines = personLines(attId, orders);
+  return { lines, unpaid: r2(sum(lines.filter(l => !l.paid), l => l.amount)), paid: r2(sum(lines.filter(l => l.paid), l => l.amount)), all: r2(sum(lines, l => l.amount)) };
+}
+async function payFor({ eventId, att, orders, tipPct, method, by }) {
+  const lines = personLines(att.id, orders).filter(l => !l.paid);
+  if (!lines.length) return;
+  const sub = r2(sum(lines, l => l.amount)), tip = r2(sub * tipPct / 100), now = Date.now();
+  await Promise.all(lines.map(l => store.update(`events/${eventId}/orders/${l.o.id}`, { ['paid.' + att.id]: now })));
+  await store.add(`events/${eventId}/payments`, { attendeeId: att.id, name: att.name, subtotal: sub, tipPct, tip, total: r2(sub + tip), method, at: now, orderIds: lines.map(l => l.o.id), by });
+}
+async function undoPayments({ eventId, att, orders, payments }) {
+  await Promise.all(orders.filter(o => o.paid && o.paid[att.id]).map(o => store.update(`events/${eventId}/orders/${o.id}`, { ['paid.' + att.id]: null })));
+  await Promise.all(payments.filter(p => p.attendeeId === att.id).map(p => store.del(`events/${eventId}/payments/${p.id}`)));
+}
+function computeSummary(ev, attendees, orders, payments) {
+  const total = r2(sum(orders, o => o.unitPrice * o.qty));
+  let collected = 0;
+  orders.forEach(o => (o.shares || []).forEach(a => { if (o.paid && o.paid[a]) collected += o.unitPrice * o.qty / o.shares.length; }));
+  collected = r2(collected);
+  const spenders = attendees.filter(a => orders.some(o => (o.shares || []).includes(a.id))).length;
+  const items = {}; orders.forEach(o => { const k = o.name_es + (o.variant_es ? ' · ' + o.variant_es : ''); items[k] = items[k] || { es: o.name_es + (o.variant_es ? ' · ' + o.variant_es : ''), en: (o.name_en || o.name_es) + (o.variant_en ? ' · ' + o.variant_en : ''), qty: 0, amount: 0 }; items[k].qty += o.qty; items[k].amount += o.unitPrice * o.qty; });
+  const cats = {}; orders.forEach(o => { const k = o.catId || 'custom'; cats[k] = cats[k] || { es: o.cat_es || 'Otro', en: o.cat_en || 'Other', amount: 0 }; cats[k].amount += o.unitPrice * o.qty; });
+  const hours = {}; attendees.forEach(a => { if (!a.joinedAt) return; const h = new Date(a.joinedAt).getHours(); hours[h] = (hours[h] || 0) + 1; });
+  return {
+    attendees: attendees.length, spenders, orders: orders.length, total, collected, outstanding: r2(total - collected),
+    tips: r2(sum(payments, p => p.tip)), avg: spenders ? r2(total / spenders) : 0,
+    top: Object.values(items).sort((a, b) => b.qty - a.qty || b.amount - a.amount).slice(0, 6).map(x => ({ ...x, amount: r2(x.amount) })),
+    byCat: Object.values(cats).sort((a, b) => b.amount - a.amount).map(x => ({ ...x, amount: r2(x.amount) })),
+    byHour: Object.entries(hours).map(([h, n]) => ({ h: +h, n })).sort((a, b) => a.h - b.h),
+    venueBill: ev.venueBill ?? null
+  };
+}
+function summaryText(ev, s, L) {
+  const tt = (k, v) => t(k, v, L);
+  const top = s.top.slice(0, 3).map(x => `${L === 'en' ? x.en : x.es} (${x.qty})`).join(', ');
+  return L === 'es'
+    ? `Riviera Maya Tech Builders × ${ev.venueName}\n${ev.title} · ${ev.date}\n\n• ${s.attendees} asistentes (${s.spenders} consumieron)\n• ${tt('venueTotal')}: ${money(s.total)} MXN\n• ${tt('avgPerson')}: ${money(s.avg)}\n• ${tt('tips')} registradas: ${money(s.tips)}\n${top ? `• ${tt('topItems')}: ${top}\n` : ''}\n¡Gracias por recibir a la comunidad! 🌴 rivieramaya.tech`
+    : `Riviera Maya Tech Builders × ${ev.venueName}\n${ev.title} · ${ev.date}\n\n• ${s.attendees} attendees (${s.spenders} ordered)\n• ${tt('venueTotal')}: ${money(s.total)} MXN\n• ${tt('avgPerson')}: ${money(s.avg)}\n• ${tt('tips')} recorded: ${money(s.tips)}\n${top ? `• ${tt('topItems')}: ${top}\n` : ''}\nThanks for hosting the community! 🌴 rivieramaya.tech`;
+}
+function downloadCSV(ev, attendees, orders) {
+  const rows = [['attendee', 'item', 'variant', 'option', 'qty', 'unit_price', 'split_between', 'amount', 'paid', 'paid_at', 'ordered_at']];
+  attendees.forEach(a => personLines(a.id, orders).forEach(l => rows.push([a.name, l.o.name_es, l.o.variant_es || '', l.o.option || '', l.o.qty, l.o.unitPrice, l.o.shares.length, l.amount, l.paid ? 'yes' : 'no', l.paid ? new Date(l.o.paid[a.id]).toISOString() : '', new Date(l.o.createdAt).toISOString()])));
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' }));
+  a.download = `meetup-${ev.date}-${slug(ev.venueName)}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function drawQR(el, text, size) {
+  if (!el) return; el.innerHTML = '';
+  if (window.QRCode) new QRCode(el, { text, width: size, height: size, colorDark: '#0b2a35', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  else el.innerHTML = `<p class="mono small">${esc(text)}</p>`;
+}
+
+/* ============================ shared sheets ============================ */
+function itemRow(item, ci, ii) {
+  const price = item.variants?.length ? `<small>${t('from')}</small>${money(itemFrom(item))}` : money(item.price);
+  const secondary = lang === 'en' && item.en && item.en !== item.es ? item.es : (nm(item, 'note_') || '');
+  return `<button class="item" data-act="pick" data-c="${ci}" data-i="${ii}"><span class="item-main"><span class="item-name">${esc(nm(item))}</span>${secondary ? `<span class="item-sub">${esc(secondary)}</span>` : ''}</span><span class="item-price">${price}</span><span class="plus" aria-hidden="true">+</span></button>`;
+}
+function menuListHTML(menu, q) {
+  const norm = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const qq = norm(q).trim();
+  const match = it => !qq || norm(it.es + ' ' + (it.en || '') + ' ' + (it.options || []).join(' ')).includes(qq);
+  const blocks = (menu?.categories || []).map((c, ci) => {
+    const rows = c.items.map((it, ii) => match(it) ? itemRow(it, ci, ii) : '').join('');
+    return rows ? `<h3 class="cat-h" id="cat-${c.id}">${esc(nm(c))}${lang === 'en' && c.en !== c.es ? `<small>${esc(c.es)}</small>` : ''}</h3><div class="items">${rows}</div>` : '';
+  }).join('');
+  return blocks || `<div class="empty">🔎 —</div>`;
+}
+
+/* Item picker: used by attendees (for themselves) and by the organizer (for anyone) */
+function openPickSheet({ eventId, ev, item, cat, actor, attendees, isOrganizer }) {
+  if (ev.status === 'closed' && !isOrganizer) { toast(t('closedEvent')); return; }
+  const st = { v: item.variants?.length ? 0 : -1, opt: item.options?.[0] ?? null, qty: 1, split: false, shares: new Set([actor.id]), note: '' };
+  const unit = () => st.v >= 0 ? +item.variants[st.v].price : +item.price;
+  const render = () => {
+    const total = r2(unit() * st.qty), n = st.split ? st.shares.size : 1;
+    const secondary = lang === 'en' && item.en !== item.es ? `<p class="muted small" style="margin:4px 0 0">${esc(t('onMenu', { name: item.es }))}</p>` : '';
+    const note = nm(item, 'note_') ? `<p class="muted small" style="margin:4px 0 0">${esc(nm(item, 'note_'))}</p>` : '';
+    openSheet(`<h3 class="sheet-title">${esc(nm(item))}</h3>${secondary}${note}
+      ${item.variants?.length ? `<span class="lbl">${t('size')}</span><div class="pills">${item.variants.map((v, i) => `<button class="pill ${i === st.v ? 'on' : ''}" data-act="pkV" data-i="${i}">${esc(nm(v))} · ${money(v.price)}</button>`).join('')}</div>` : ''}
+      ${item.options?.length ? `<span class="lbl">${t('choice')}</span><div class="pills">${item.options.map((o, i) => `<button class="pill ${o === st.opt ? 'on' : ''}" data-act="pkO" data-i="${i}">${esc(o)}</button>`).join('')}</div>` : ''}
+      <span class="lbl">${t('qty')}</span><div class="stepper"><button data-act="pkQ" data-d="-1" aria-label="−">−</button><span>${st.qty}</span><button data-act="pkQ" data-d="1" aria-label="+">+</button></div>
+      ${attendees.length > 1 ? `<div class="switch-row"><span>${t('split')}</span><button class="switch ${st.split ? 'on' : ''}" data-act="pkS" role="switch" aria-checked="${st.split}" aria-label="${t('split')}"></button></div>
+        ${st.split ? `<p class="muted small" style="margin:0 0 8px">${t('splitHint')}</p><div class="pills">${attendees.map(a => `<button class="pill ${st.shares.has(a.id) ? 'on' : ''}" data-act="pkP" data-id="${a.id}" ${a.id === actor.id ? 'disabled' : ''}>${esc(a.name)}${a.id === actor.id && !isOrganizer ? ` (${t('you')})` : ''}</button>`).join('')}</div>` : ''}` : ''}
+      <input class="input" id="pk-note" style="margin-top:14px" placeholder="${esc(t('note'))}" value="${esc(st.note)}" maxlength="80">
+      <button class="btn coral block big" data-act="pkAdd">${isOrganizer ? esc(t('addFor', { name: actor.name })) : t('addToTab')} · ${money(total)}</button>
+      ${n > 1 ? `<p class="center muted small">${t('perPerson', { amt: money(total / n) })}</p>` : ''}`);
+  };
+  const keepNote = () => { const el = $('#pk-note'); if (el) st.note = el.value; };
+  addActs({
+    pkV: el => { keepNote(); st.v = +el.dataset.i; render(); },
+    pkO: el => { keepNote(); st.opt = item.options[+el.dataset.i]; render(); },
+    pkQ: el => { keepNote(); st.qty = Math.max(1, Math.min(50, st.qty + +el.dataset.d)); render(); },
+    pkS: () => { keepNote(); st.split = !st.split; render(); },
+    pkP: el => { keepNote(); const id = el.dataset.id; if (id === actor.id) return; st.shares.has(id) ? st.shares.delete(id) : st.shares.add(id); render(); },
+    pkAdd: async el => {
+      keepNote(); el.disabled = true;
+      const v = st.v >= 0 ? item.variants[st.v] : null;
+      await store.add(`events/${eventId}/orders`, {
+        itemId: item.id, catId: cat?.id || 'custom', cat_es: cat?.es || 'Otro', cat_en: cat?.en || 'Other',
+        name_es: item.es, name_en: item.en || item.es, variant_es: v?.es || null, variant_en: v?.en || null,
+        option: st.opt || null, note: st.note.trim() || null, unitPrice: unit(), qty: st.qty,
+        shares: st.split ? [...st.shares] : [actor.id], paid: {}, createdBy: actor.id, byOrganizer: !!isOrganizer, createdAt: Date.now()
+      });
+      closeSheet(); toast(t('added'));
+    }
+  });
+  render();
+}
+function openCustomSheet(ctx) {
+  openSheet(`<h3 class="sheet-title">${t('customItem')}</h3>
+    <label class="lbl" for="cu-name">${t('itemName')}</label><input class="input" id="cu-name" maxlength="60">
+    <label class="lbl" for="cu-price">${t('price')}</label><input class="input" id="cu-price" type="number" inputmode="decimal" min="0" step="1">
+    <button class="btn teal block big" data-act="cuNext">${t('save')}</button>`);
+  setTimeout(() => $('#cu-name')?.focus(), 50);
+  addActs({ cuNext: () => {
+    const name = $('#cu-name').value.trim(), price = +$('#cu-price').value;
+    if (!name || !(price > 0)) { toast('✍️ ' + t('itemName') + ' + ' + t('price')); return; }
+    closeSheet();
+    openPickSheet({ ...ctx, item: { id: 'custom-' + slug(name), es: name, en: name, price }, cat: null });
+  }});
+}
+function openPaySheet({ eventId, att, orders, tipPct, isOrganizer }) {
+  const st = { method: 'cash', tip: tipPct };
+  const render = () => {
+    const sub = personTotals(att.id, orders).unpaid, tip = r2(sub * st.tip / 100);
+    openSheet(`<h3 class="sheet-title">${isOrganizer ? esc(att.name) : t('paidHow')}</h3>
+      ${isOrganizer ? `<span class="lbl">${t('paidHow')}</span>` : '<div style="height:10px"></div>'}
+      <div class="pills">${['cash', 'card', 'transfer'].map(m => `<button class="pill ${st.method === m ? 'on' : ''}" data-act="pyM" data-m="${m}">${t(m)}</button>`).join('')}</div>
+      <span class="lbl">${t('tip')}</span><div class="pills">${[0, 10, 15, 20].map(p => `<button class="pill ${st.tip === p ? 'on' : ''}" data-act="pyT" data-p="${p}">${p}%</button>`).join('')}</div>
+      <div class="totals" style="margin-top:14px"><div class="tot-row"><span>${t('subtotal')}</span><span>${money(sub)}</span></div><div class="tot-row"><span>${t('tip')} ${st.tip}%</span><span>${money(tip)}</span></div><div class="tot-row grand"><span>${t('total')}</span><span>${money(sub + tip)}</span></div></div>
+      <button class="btn coral block big" data-act="pyGo">${t('confirmPaid', { amt: money(sub + tip) })}</button>`);
+  };
+  addActs({
+    pyM: el => { st.method = el.dataset.m; render(); },
+    pyT: el => { st.tip = +el.dataset.p; if (!isOrganizer) ls.set('rmtb_tip_' + eventId, String(st.tip)); render(); },
+    pyGo: async el => { el.disabled = true; await payFor({ eventId, att, orders, tipPct: st.tip, method: st.method, by: isOrganizer ? 'organizer' : 'self' }); closeSheet(); toast(t('paidOk')); }
+  });
+  render();
+}
+/* Always in Spanish: this is what the venue staff reads */
+function openWaiterSheet({ att, orders, tipPct }) {
+  const lines = personLines(att.id, orders).filter(l => !l.paid);
+  const sub = r2(sum(lines, l => l.amount)), tip = r2(sub * tipPct / 100);
+  openSheet(`<div class="waiter"><p class="w-kicker">Cuenta individual · Riviera Maya Tech Builders</p><h2>${esc(att.name)}</h2>
+    ${lines.length ? `<ul>${lines.map(l => `<li><span>${l.o.qty} × ${esc(orderLabel(l.o, 'es'))}${l.o.shares.length > 1 ? ` <span class="muted">(÷${l.o.shares.length})</span>` : ''}</span><b>${money(l.amount)}</b></li>`).join('')}</ul>
+      <div class="totals"><div class="tot-row"><span>Subtotal</span><span>${money(sub)}</span></div><div class="tot-row"><span>Propina ${tipPct}%</span><span>${money(tip)}</span></div></div>
+      <div class="w-total"><span>Total</span><span>${money(sub + tip)}</span></div>` : `<p class="w-total">${DICT.es.allPaid}</p>`}
+    ${lang === 'en' ? `<p class="muted small">${t('waiterLead')}</p>` : ''}
+    <button class="btn ghost block" style="margin-top:14px" data-act="closeSheet">${t('close')}</button></div>`);
+}
+
+/* ============================== views ============================== */
+function viewHome() {
+  setActs({ goCode: () => {
+    const raw = $('#code').value.trim(); if (!raw) return;
+    const m = raw.match(/#\/e\/([\w-]+)/); location.hash = '#/e/' + (m ? m[1] : raw.toLowerCase().replace(/[^\w-]/g, ''));
+  }});
+  $('#app').innerHTML = hero({ title: t('appName'), sub: t('tagline') }) + `<main class="wrap">${demoBanner()}
+    <section class="card"><h2>${t('happening')}</h2><div id="open-list"><p class="muted">${t('loading')}</p></div></section>
+    <section class="card"><label class="lbl" for="code">${t('joinCode')}</label><div class="row"><input id="code" class="input" placeholder="10-29-k3f9" autocapitalize="off" autocomplete="off"><button class="btn" data-act="goCode">${t('go')}</button></div></section>
+    <p class="center"><a class="link" href="#/admin">${t('organizer')} →</a></p>
+    <p class="footer-note">Riviera Maya Tech Builders · Built in Paradise 🌴</p></main>`;
+  $('#code').addEventListener('keydown', e => { if (e.key === 'Enter') ACTS.goCode(); });
+  cleanups.push(store.onCol('events', evs => {
+    const open = evs.filter(e => e.status === 'open').sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    setHTML('#open-list', open.length ? open.map(e => `<a class="row-link" href="#/e/${e.id}"><div><b>${esc(e.title)}</b><div class="muted small">${esc(e.venueName)} · ${fmtDate(e.date)}</div></div><span class="chev">›</span></a>`).join('') : `<p class="muted">${t('noOpen')}</p>`);
+  }));
+}
+
+/* --------------------------- attendee --------------------------- */
+function viewAttendee(eventId) {
+  let ev, attendees, orders, mode = null, q = '';
+  let me = ls.get('rmtb_me_' + eventId);
+  $('#app').innerHTML = `<div id="at-hero"></div><main class="wrap" id="at-main"><p class="muted">${t('loading')}</p></main><div id="at-bar"></div>`;
+  cleanups.push(store.onDoc(`events/${eventId}`, d => { ev = d; draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/attendees`, d => { attendees = d.sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0)); draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/orders`, d => { orders = d.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); draw(); }));
+  const tipPct = () => { const v = ls.get('rmtb_tip_' + eventId); return v !== null ? +v : (ev?.tipDefault ?? 10); };
+  const meDoc = () => attendees?.find(a => a.id === me);
+
+  setActs({
+    join: async el => {
+      const name = $('#ci-name').value.trim(); if (!name) { $('#ci-name').focus(); return; }
+      el.disabled = true; const id = uid();
+      await store.set(`events/${eventId}/attendees/${id}`, { name: name.slice(0, 40), building: $('#ci-build').value.trim().slice(0, 80) || null, joinedAt: Date.now(), by: 'self' });
+      me = id; ls.set('rmtb_me_' + eventId, id); draw();
+    },
+    pickMe: el => { me = el.dataset.id; ls.set('rmtb_me_' + eventId, me); draw(); },
+    switchMe: () => { if (!confirm(t('switchConfirm'))) return; me = null; ls.del('rmtb_me_' + eventId); draw(); },
+    atTab: el => showPane(el.dataset.k),
+    chip: el => { const tgt = document.getElementById('cat-' + el.dataset.id); if (tgt) tgt.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
+    pick: el => { const cat = ev.menu.categories[+el.dataset.c]; openPickSheet({ eventId, ev, item: cat.items[+el.dataset.i], cat, actor: meDoc(), attendees, isOrganizer: false }); },
+    custom: () => { if (ev.status === 'closed') { toast(t('closedEvent')); return; } openCustomSheet({ eventId, ev, actor: meDoc(), attendees, isOrganizer: false }); },
+    rm: async el => { await store.del(`events/${eventId}/orders/${el.dataset.id}`); toast(t('removed')); },
+    tipSel: el => { ls.set('rmtb_tip_' + eventId, el.dataset.p); drawMine(); },
+    waiter: () => openWaiterSheet({ att: meDoc(), orders, tipPct: tipPct() }),
+    pay: () => openPaySheet({ eventId, att: meDoc(), orders, tipPct: tipPct(), isOrganizer: false })
+  });
+
+  function showPane(k) {
+    $$('#at-seg button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
+    $('#pane-menu').hidden = k !== 'menu'; $('#pane-mine').hidden = k !== 'mine';
+    $('#at-bar').hidden = k === 'mine';
+    window.scrollTo({ top: 0 });
+  }
+  function draw() {
+    if (ev === undefined || !attendees || !orders) return;
+    if (ev === null) { setHTML('#at-hero', hero({ title: t('notFound'), compact: true })); setHTML('#at-main', `<p class="center"><a class="link" href="#/">← ${t('appName')}</a></p>`); return; }
+    const want = meDoc() ? 'main' : 'checkin';
+    if (want !== mode) { mode = want; want === 'main' ? shellMain() : shellCheckin(); }
+    want === 'main' ? drawMain() : drawCheckin();
+  }
+  function shellCheckin() {
+    setHTML('#at-bar', '');
+    setHTML('#at-main', `${demoBanner()}<section class="card"><h2>${t('checkinTitle')}</h2>
+      <label class="lbl" for="ci-name">${t('yourName')}</label><input class="input" id="ci-name" maxlength="40" autocomplete="given-name">
+      <label class="lbl" for="ci-build">${t('building')}</label><input class="input" id="ci-build" maxlength="80" placeholder="${esc(t('buildingPh'))}">
+      <div class="btn-stack"><button class="btn coral big" data-act="join">${t('join')} →</button></div></section>
+      <section class="card" id="ci-existing" hidden></section>`);
+    $('#ci-name').addEventListener('keydown', e => { if (e.key === 'Enter') ACTS.join($('[data-act=join]')); });
+  }
+  function drawCheckin() {
+    setHTML('#at-hero', hero({ title: esc(ev.title), sub: `${esc(ev.venueName)} · ${fmtDate(ev.date)}` }));
+    const ex = $('#ci-existing');
+    if (ex) { ex.hidden = !attendees.length; ex.innerHTML = attendees.length ? `<p class="muted small" style="margin:0 0 10px">${t('already')}</p><div class="pills">${attendees.map(a => `<button class="pill" data-act="pickMe" data-id="${a.id}">${esc(a.name)}</button>`).join('')}</div>` : ''; }
+    if (ev.status === 'closed' && !$('#ci-closed')) $('#at-main').insertAdjacentHTML('afterbegin', `<div class="banner" id="ci-closed">${t('closedEvent')}</div>`);
+  }
+  function shellMain() {
+    setHTML('#at-main', `${demoBanner()}<div id="at-closed"></div>
+      <nav class="seg" id="at-seg"><button data-act="atTab" data-k="menu" class="on">${t('menu')}</button><button data-act="atTab" data-k="mine">${t('myTab')}<span class="badge" id="at-count" hidden></span></button></nav>
+      <section id="pane-menu"><div class="searchbar"><input id="q" class="input" type="search" placeholder="${esc(t('search'))}" autocomplete="off"><div class="chips" id="chips"></div></div>
+        <div id="menu-list"></div>
+        <div class="card center" style="margin-top:18px"><p class="muted" style="margin:0 0 10px">${t('customItem')}</p><button class="btn ghost" data-act="custom">${t('addCustom')}</button></div></section>
+      <section id="pane-mine" hidden><div id="mine"></div></section>`);
+    $('#q').addEventListener('input', e => { q = e.target.value; setHTML('#menu-list', menuListHTML(ev.menu, q)); });
+  }
+  function drawMain() {
+    const m = meDoc();
+    setHTML('#at-hero', hero({ title: esc(t('hi', { name: m.name })), sub: `${esc(ev.title)} · ${esc(ev.venueName)}`, compact: true }));
+    setHTML('#at-closed', ev.status === 'closed' ? `<div class="banner">${t('closedEvent')}</div>` : '');
+    setHTML('#chips', (ev.menu?.categories || []).map(c => `<button class="chip" data-act="chip" data-id="${c.id}">${esc(nm(c))}</button>`).join(''));
+    setHTML('#menu-list', menuListHTML(ev.menu, q));
+    drawMine();
+  }
+  function drawMine() {
+    const m = meDoc(); if (!m) return;
+    const { lines, unpaid } = personTotals(m.id, orders);
+    const open = lines.filter(l => !l.paid), done = lines.filter(l => l.paid);
+    const tp = tipPct(), tip = r2(unpaid * tp / 100);
+    const cnt = $('#at-count'); if (cnt) { cnt.hidden = !open.length; cnt.textContent = open.length; }
+    const nameOf = id => attendees.find(a => a.id === id)?.name || '?';
+    const lineHTML = l => {
+      const canRm = !l.paid && l.o.createdBy === m.id && !Object.values(l.o.paid || {}).some(Boolean);
+      const meta = [`${l.o.qty} × ${money(l.o.unitPrice)}`, l.o.shares.length > 1 ? t('splitN', { n: l.o.shares.length }) : '', l.o.createdBy !== m.id ? t('addedBy', { name: esc(nameOf(l.o.createdBy)) }) : '', l.o.note ? '“' + esc(l.o.note) + '”' : ''].filter(Boolean).join(' · ');
+      return `<div class="line ${l.paid ? 'paid' : ''}"><div class="line-main"><div class="line-name">${esc(orderLabel(l.o))}</div><div class="line-meta">${meta}</div></div><div class="line-amt">${l.paid ? '<span class="tick">✓</span> ' : ''}${money(l.amount)}</div>${canRm ? `<button class="x-btn" data-act="rm" data-id="${l.o.id}" aria-label="${t('delete')}">✕</button>` : ''}</div>`;
+    };
+    setHTML('#mine', `<section class="card"><div class="card-head"><h2>${t('yourTab')}</h2><span class="muted small">${t('unpaid')}</span></div>
+        ${open.length ? open.map(lineHTML).join('') : `<div class="empty">${t('nothingYet')}</div>`}
+        ${open.length ? `<span class="lbl">${t('tip')}</span><div class="pills">${[0, 10, 15, 20].map(p => `<button class="pill ${tp === p ? 'on' : ''}" data-act="tipSel" data-p="${p}">${p}%</button>`).join('')}</div>
+        <div class="totals" style="margin-top:12px"><div class="tot-row"><span>${t('subtotal')}</span><span>${money(unpaid)}</span></div><div class="tot-row"><span>${t('tip')} ${tp}%</span><span>${money(tip)}</span></div><div class="tot-row grand"><span>${t('total')}</span><span>${money(unpaid + tip)}</span></div></div>
+        <div class="btn-pair"><button class="btn ghost" data-act="waiter">${t('showWaiter')}</button><button class="btn coral" data-act="pay">${t('iPaid')} ✓</button></div>` : ''}</section>
+      ${done.length ? `<section class="card"><h2>${t('paidItems')}</h2>${done.map(lineHTML).join('')}</section>` : ''}
+      <p class="center"><button class="btn ghost small" data-act="switchMe">${esc(t('switchPerson', { name: m.name }))}</button></p>`);
+    setHTML('#at-bar', `<div class="tabbar"><button data-act="atTab" data-k="mine"><span>${t('yourTab')}<span class="sub">${open.length ? open.length + ' ' + t('items') : ''}</span></span><b>${money(unpaid)}</b></button></div>`);
+    if (!$('#pane-mine').hidden) $('#at-bar').hidden = true;
+  }
+}
+
+/* --------------------------- organizer --------------------------- */
+function requireOrg() {
+  if (ss.get('rmtb_org') === '1') return true;
+  setActs({ unlock: () => { if ($('#pin').value === String(CONFIG.organizerPin)) { ss.set('rmtb_org', '1'); route(); } else toast(t('wrongPin')); } });
+  $('#app').innerHTML = hero({ title: t('organizer'), sub: t('pinHint'), back: '#/' }) + `<main class="wrap">${demoBanner()}<section class="card"><label class="lbl" for="pin">${t('pin')}</label><div class="row"><input id="pin" class="input" type="password" inputmode="numeric" autocomplete="off"><button class="btn" data-act="unlock">${t('unlock')}</button></div></section></main>`;
+  $('#pin').addEventListener('keydown', e => { if (e.key === 'Enter') ACTS.unlock(); });
+  setTimeout(() => $('#pin')?.focus(), 50);
+  return false;
+}
+
+function viewAdmin() {
+  if (!requireOrg()) return;
+  let events, venues, seeding = false, tab = ls.get('rmtb_admin_tab') || 'events';
+  $('#app').innerHTML = hero({ title: t('organizer'), sub: 'Riviera Maya Tech Builders', back: '#/' }) + `<main class="wrap">${demoBanner()}
+    <nav class="seg" id="adm-seg">${['events', 'venues', 'insights'].map(k => `<button data-act="admTab" data-k="${k}" class="${tab === k ? 'on' : ''}">${t(k)}</button>`).join('')}</nav><div id="adm-body"><p class="muted">${t('loading')}</p></div></main>`;
+  setActs({
+    admTab: el => { tab = el.dataset.k; ls.set('rmtb_admin_tab', tab); $$('#adm-seg button').forEach(b => b.classList.toggle('on', b.dataset.k === tab)); draw(); },
+    newEvent: () => openNewEventSheet(venues),
+    newVenue: () => openNewVenueSheet()
+  });
+  cleanups.push(store.onCol('events', d => { events = d; draw(); }));
+  cleanups.push(store.onCol('venues', async d => {
+    venues = d;
+    if (!d.length && !seeding) { seeding = true; await store.set('venues/' + SEED_VENUE.id, { name: SEED_VENUE.name, location: SEED_VENUE.location, menu: normalizeMenu(SEED_VENUE.menu), createdAt: Date.now(), updatedAt: Date.now() }); return; }
+    draw();
+  }));
+  function draw() {
+    if (!events || !venues) return;
+    const body = $('#adm-body'); if (!body) return;
+    if (tab === 'events') {
+      const list = [...events].sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt || 0) - (a.createdAt || 0));
+      body.innerHTML = `<button class="btn coral block big" style="margin:0 0 14px" data-act="newEvent">${t('newEvent')}</button>
+        <section class="card">${list.length ? list.map(e => `<a class="row-link" href="#/admin/e/${e.id}"><div><b>${esc(e.title)}</b> ${statusChip(e).replace('status ' + e.status, 'status ' + e.status + '" style="background:' + (e.status === 'open' ? '#e3f7f5' : '#efe4cf') + ';color:var(--deep)')}
+          <div class="muted small">${esc(e.venueName)} · ${fmtDate(e.date)}${e.summary?.total ? ' · ' + money(e.summary.total) : ''}</div></div><span class="chev">›</span></a>`).join('') : `<div class="empty">${t('noEvents')}</div>`}</section>`;
+    } else if (tab === 'venues') {
+      body.innerHTML = `<button class="btn teal block big" style="margin:0 0 14px" data-act="newVenue">${t('newVenue')}</button>
+        <section class="card">${venues.map(v => { const n = sum(v.menu?.categories || [], c => c.items.length); return `<a class="row-link" href="#/admin/venue/${v.id}"><div><b>${esc(v.name)}</b><div class="muted small">${esc(v.location || '')} · ${n} ${t('items')} · ${t('updated')} ${v.updatedAt ? new Date(v.updatedAt).toLocaleDateString(lang === 'es' ? 'es-MX' : 'en-US') : '—'}</div></div><span class="chev">›</span></a>`; }).join('')}</section>
+        <p class="muted small center">${t('reuseMenu')}</p>`;
+    } else {
+      const withData = events.filter(e => e.summary && e.summary.orders);
+      if (!withData.length) { body.innerHTML = `<section class="card"><div class="empty">${t('noInsights')}</div></section>`; return; }
+      const byVenue = {};
+      withData.forEach(e => { const k = e.venueId; byVenue[k] = byVenue[k] || { name: e.venueName, events: [], total: 0, people: 0, tips: 0 }; const b = byVenue[k]; b.events.push(e); b.total += e.summary.total; b.people += e.summary.attendees; b.tips += e.summary.tips; });
+      const grand = sum(withData, e => e.summary.total), people = sum(withData, e => e.summary.attendees);
+      body.innerHTML = `<div class="stats"><div class="stat hl"><span>${t('venueTotal')}</span><b>${money(grand)}</b></div><div class="stat"><span>${t('peopleN')}</span><b>${people}</b></div><div class="stat"><span>${t('meetupsN')}</span><b>${withData.length}</b></div><div class="stat"><span>${t('avgPerson')}</span><b>${money(people ? grand / people : 0)}</b></div></div>
+        ${Object.values(byVenue).sort((a, b) => b.total - a.total).map(v => `<section class="card"><div class="card-head"><h2>${esc(v.name)}</h2><b>${money(v.total)}</b></div>
+          <p class="muted small" style="margin:0 0 6px">${v.events.length} ${t('meetupsN')} · ${v.people} ${t('peopleN')} · ${t('tips')} ${money(v.tips)}</p>
+          ${v.events.sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(e => `<a class="row-link" href="#/admin/e/${e.id}"><div>${fmtDate(e.date)} · ${esc(e.title)}<div class="muted small">${e.summary.attendees} ${t('peopleN')} · ${t('avgPerson')} ${money(e.summary.avg)}</div></div><b>${money(e.summary.total)}</b></a>`).join('')}</section>`).join('')}`;
+    }
+  }
+}
+function openNewEventSheet(venues) {
+  if (!venues?.length) { toast(t('needVenue')); return; }
+  const sorted = [...venues].sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+  openSheet(`<h3 class="sheet-title">${t('newEvent').replace('+ ', '')}</h3>
+    <label class="lbl" for="ne-title">${t('title')}</label><input class="input" id="ne-title" value="Riviera Maya Tech Builders" maxlength="60">
+    <label class="lbl" for="ne-date">${t('date')}</label><input class="input" id="ne-date" type="date" value="${todayISO()}">
+    <label class="lbl" for="ne-venue">${t('venue')}</label><select class="input" id="ne-venue">${sorted.map(v => `<option value="${v.id}">${esc(v.name)} · ${sum(v.menu?.categories || [], c => c.items.length)} ${t('items')}</option>`).join('')}</select>
+    <p class="muted small">${t('reuseMenu')}</p>
+    <label class="lbl" for="ne-tip">${t('tipDefault')}</label><select class="input" id="ne-tip">${[0, 10, 15].map(p => `<option value="${p}" ${p === 10 ? 'selected' : ''}>${p}%</option>`).join('')}</select>
+    <button class="btn coral block big" data-act="neGo">${t('create')}</button>`);
+  addActs({ neGo: async el => {
+    const v = venues.find(x => x.id === $('#ne-venue').value); const date = $('#ne-date').value || todayISO();
+    el.disabled = true; const id = `${date.slice(5)}-${rand(4)}`;
+    await store.set('events/' + id, { title: $('#ne-title').value.trim() || 'Riviera Maya Tech Builders', date, venueId: v.id, venueName: v.name, venueLocation: v.location || '', menu: v.menu || { categories: [] }, status: 'open', tipDefault: +$('#ne-tip').value, venueBill: null, summary: null, createdAt: Date.now() });
+    closeSheet(); location.hash = '#/admin/e/' + id;
+  }});
+}
+function openNewVenueSheet() {
+  openSheet(`<h3 class="sheet-title">${t('newVenue').replace('+ ', '')}</h3>
+    <label class="lbl" for="nv-name">${t('venueName')}</label><input class="input" id="nv-name" maxlength="60">
+    <label class="lbl" for="nv-loc">${t('location')}</label><input class="input" id="nv-loc" maxlength="80" placeholder="Playa del Carmen, Q. Roo">
+    <button class="btn teal block big" data-act="nvGo">${t('createVenue')}</button>`);
+  addActs({ nvGo: async () => {
+    const name = $('#nv-name').value.trim(); if (!name) return;
+    const id = slug(name) + '-' + rand(3);
+    await store.set('venues/' + id, { name, location: $('#nv-loc').value.trim(), menu: { categories: [] }, createdAt: Date.now(), updatedAt: Date.now() });
+    closeSheet(); location.hash = '#/admin/venue/' + id;
+  }});
+}
+
+/* ----------------------- venue menu editor ----------------------- */
+function viewVenue(id) {
+  if (!requireOrg()) return;
+  let v, fieldsDrawn = false;
+  $('#app').innerHTML = `<div id="vn-hero">${hero({ title: t('editMenu'), back: '#/admin', compact: true })}</div><main class="wrap">${demoBanner()}
+    <section class="card" id="vn-fields"><p class="muted">${t('loading')}</p></section>
+    <section class="card"><p class="muted small" style="margin:0 0 10px">${t('aiHint')}</p><div class="row wrap-row"><button class="btn small teal" data-act="aiCopy">${t('aiPrompt')}</button><button class="btn small ghost" data-act="jsonTools">${t('importJson')}</button><button class="btn small ghost" data-act="addCat">${t('addCategory')}</button></div></section>
+    <div id="vn-cats"></div></main>`;
+  const path = 'venues/' + id;
+  const menu = () => clean(v.menu || { categories: [] });
+  const saveMenu = async m => { await store.update(path, { menu: normalizeMenu(m), updatedAt: Date.now() }); toast(t('menuSaved')); };
+  cleanups.push(store.onDoc(path, d => {
+    v = d;
+    if (!v) { setHTML('#vn-cats', `<div class="empty">404</div>`); return; }
+    if (!fieldsDrawn) {
+      fieldsDrawn = true;
+      setHTML('#vn-fields', `<label class="lbl" for="vn-name">${t('venueName')}</label><input class="input" id="vn-name" value="${esc(v.name)}" maxlength="60">
+        <label class="lbl" for="vn-loc">${t('location')}</label><input class="input" id="vn-loc" value="${esc(v.location || '')}" maxlength="80">`);
+      $('#vn-name').addEventListener('change', e => e.target.value.trim() && store.update(path, { name: e.target.value.trim(), updatedAt: Date.now() }));
+      $('#vn-loc').addEventListener('change', e => store.update(path, { location: e.target.value.trim(), updatedAt: Date.now() }));
+    }
+    setHTML('#vn-hero', hero({ title: esc(v.name), sub: t('editMenu'), back: '#/admin', compact: true }));
+    const cats = v.menu?.categories || [];
+    setHTML('#vn-cats', cats.map((c, ci) => `<section class="card"><div class="card-head"><h2 style="font-size:18px">${esc(c.es)}${c.en !== c.es ? ` <span class="muted small">/ ${esc(c.en)}</span>` : ''}</h2>
+        <div class="row"><button class="btn ghost small" data-act="mvCat" data-c="${ci}" data-d="-1" aria-label="up" ${ci === 0 ? 'disabled' : ''}>↑</button><button class="btn ghost small" data-act="mvCat" data-c="${ci}" data-d="1" aria-label="down" ${ci === cats.length - 1 ? 'disabled' : ''}>↓</button><button class="btn ghost small" data-act="editCat" data-c="${ci}">${t('edit')}</button></div></div>
+        <div class="items">${c.items.length ? c.items.map((it, ii) => `<button class="item" data-act="editItem" data-c="${ci}" data-i="${ii}"><span class="item-main"><span class="item-name">${esc(it.es)}</span><span class="item-sub">${esc(it.en)}${it.variants ? ' · ' + it.variants.map(x => esc(x.es) + ' ' + money(x.price)).join(' / ') : ''}${it.options ? ' · ' + esc(it.options.join(', ')) : ''}</span></span><span class="item-price">${it.variants ? '<small>' + t('from') + '</small>' + money(itemFrom(it)) : money(it.price)}</span></button>`).join('') : `<div class="empty">${t('emptyCat')}</div>`}</div>
+        <button class="btn ghost small" style="margin-top:10px" data-act="addItem" data-c="${ci}">${t('addItem')}</button></section>`).join('') || `<section class="card"><div class="empty">${t('emptyCat')}</div></section>`);
+  }));
+
+  function catSheet(ci) {
+    const c = ci === null ? { es: '', en: '' } : v.menu.categories[ci];
+    openSheet(`<h3 class="sheet-title">${t('categoryName')}</h3>
+      <label class="lbl" for="cs-es">ES</label><input class="input" id="cs-es" value="${esc(c.es)}"><label class="lbl" for="cs-en">EN</label><input class="input" id="cs-en" value="${esc(c.en)}">
+      <button class="btn teal block big" data-act="csSave">${t('save')}</button>${ci !== null ? `<button class="btn danger block" style="margin-top:8px" data-act="csDel">${t('delete')}</button>` : ''}`);
+    addActs({
+      csSave: async () => { const es = $('#cs-es').value.trim(); if (!es) return; const m = menu(); const en = $('#cs-en').value.trim() || es; if (ci === null) m.categories.push({ id: slug(es), es, en, items: [] }); else Object.assign(m.categories[ci], { es, en }); closeSheet(); await saveMenu(m); },
+      csDel: async () => { if (!confirm(t('deleteConfirm'))) return; const m = menu(); m.categories.splice(ci, 1); closeSheet(); await saveMenu(m); }
+    });
+  }
+  function itemSheet(ci, ii) {
+    const it = ii === null ? { es: '', en: '', price: '' } : v.menu.categories[ci].items[ii];
+    openSheet(`<h3 class="sheet-title">${ii === null ? t('addItem').replace('+ ', '') : esc(it.es)}</h3>
+      <label class="lbl" for="is-es">${t('nameEs')}</label><input class="input" id="is-es" value="${esc(it.es)}">
+      <label class="lbl" for="is-en">${t('nameEn')}</label><input class="input" id="is-en" value="${esc(it.en)}">
+      <label class="lbl" for="is-price">${t('price')}</label><input class="input" id="is-price" type="number" inputmode="decimal" value="${it.price ?? ''}">
+      <label class="lbl" for="is-var">${t('variants')}</label><textarea class="input" id="is-var" placeholder="Mediano | Medium | 280&#10;Grande | Large | 380">${esc((it.variants || []).map(x => `${x.es} | ${x.en} | ${x.price}`).join('\n'))}</textarea>
+      <label class="lbl" for="is-opt">${t('options')}</label><input class="input" id="is-opt" value="${esc((it.options || []).join(', '))}" placeholder="BBQ, Buffalo">
+      <label class="lbl" for="is-nes">${t('noteEs')}</label><input class="input" id="is-nes" value="${esc(it.note_es || '')}">
+      <label class="lbl" for="is-nen">${t('noteEn')}</label><input class="input" id="is-nen" value="${esc(it.note_en || '')}">
+      <button class="btn teal block big" data-act="isSave">${t('save')}</button>${ii !== null ? `<button class="btn danger block" style="margin-top:8px" data-act="isDel">${t('delete')}</button>` : ''}`);
+    addActs({
+      isSave: async () => {
+        const es = $('#is-es').value.trim(); if (!es) return;
+        const variants = $('#is-var').value.split('\n').map(l => l.split('|').map(s => s.trim())).filter(p => p[0]).map(p => p.length >= 3 ? { es: p[0], en: p[1] || p[0], price: +p[2] } : { es: p[0], en: p[0], price: +p[1] }).filter(x => x.price > 0);
+        const price = +$('#is-price').value;
+        if (!variants.length && !(price >= 0 && $('#is-price').value !== '')) { toast('✍️ ' + t('price')); return; }
+        const out = { id: ii === null ? slug(es) : it.id, es, en: $('#is-en').value.trim() || es, price: variants.length ? null : price };
+        if (variants.length) out.variants = variants;
+        const opts = $('#is-opt').value.split(',').map(s => s.trim()).filter(Boolean); if (opts.length) out.options = opts;
+        if ($('#is-nes').value.trim()) out.note_es = $('#is-nes').value.trim(); if ($('#is-nen').value.trim()) out.note_en = $('#is-nen').value.trim();
+        const m = menu(); if (ii === null) m.categories[ci].items.push(out); else m.categories[ci].items[ii] = out;
+        closeSheet(); await saveMenu(m);
+      },
+      isDel: async () => { if (!confirm(t('deleteConfirm'))) return; const m = menu(); m.categories[ci].items.splice(ii, 1); closeSheet(); await saveMenu(m); }
+    });
+  }
+  setActs({
+    addCat: () => catSheet(null),
+    editCat: el => catSheet(+el.dataset.c),
+    mvCat: async el => { const ci = +el.dataset.c, d = +el.dataset.d, m = menu(); const j = ci + d; if (j < 0 || j >= m.categories.length) return; [m.categories[ci], m.categories[j]] = [m.categories[j], m.categories[ci]]; await saveMenu(m); },
+    addItem: el => itemSheet(+el.dataset.c, null),
+    editItem: el => itemSheet(+el.dataset.c, +el.dataset.i),
+    aiCopy: () => copyText(AI_PROMPT),
+    jsonTools: () => {
+      openSheet(`<h3 class="sheet-title">${t('importJson')}</h3><p class="muted small">${t('aiHint')}</p>
+        <button class="btn small teal" data-act="aiCopy">${t('aiPrompt')}</button>
+        <textarea class="input" id="js-text" style="min-height:260px;margin-top:12px;font-family:ui-monospace,Menlo,monospace;font-size:12px">${esc(JSON.stringify(v.menu || { categories: [] }, null, 2))}</textarea>
+        <div class="btn-pair"><button class="btn ghost" data-act="jsCopy">${t('copyLink').replace(/link|enlace/i, 'JSON')}</button><button class="btn coral" data-act="jsApply">${t('applyJson')}</button></div>`);
+      addActs({
+        jsCopy: () => copyText($('#js-text').value),
+        jsApply: async () => {
+          let parsed; try { const raw = $('#js-text').value.trim().replace(/^```(?:json)?|```$/g, ''); parsed = normalizeMenu(JSON.parse(raw)); } catch (e) { toast(t('invalidJson')); return; }
+          if (!parsed.categories.length) { toast(t('invalidJson')); return; }
+          closeSheet(); await saveMenu(parsed);
+        }
+      });
+    }
+  });
+}
+
+/* ----------------------- event admin (organizer) ----------------------- */
+function viewEventAdmin(eventId) {
+  if (!requireOrg()) return;
+  let ev, attendees, orders, payments, shell = false, openRows = new Set(), lastSummary = '', sumTimer;
+  const url = eventUrl(eventId);
+  $('#app').innerHTML = `<div id="ea-hero"></div><main class="wrap" id="ea-main"><p class="muted">${t('loading')}</p></main>`;
+  cleanups.push(store.onDoc(`events/${eventId}`, d => { ev = d; draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/attendees`, d => { attendees = d.sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0)); draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/orders`, d => { orders = d.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/payments`, d => { payments = d; draw(); }));
+  cleanups.push(() => clearTimeout(sumTimer));
+  const att = id => attendees.find(a => a.id === id);
+
+  setActs({
+    copyLink: () => copyText(url),
+    bigQR: () => { openSheet(`<div class="center"><h3 class="sheet-title">${t('shareQR')}</h3><p class="muted" style="margin:2px 0 0">${t('shareQRes')}</p><div class="qr-big"><div class="qr-box" id="qr-big"></div></div><p class="mono small">${esc(url)}</p><button class="btn ghost block" data-act="closeSheet">${t('close')}</button></div>`); drawQR($('#qr-big'), url, Math.min(300, window.innerWidth - 90)); },
+    row: el => { const id = el.dataset.id; openRows.has(id) ? openRows.delete(id) : openRows.add(id); drawPeople(); },
+    walkin: () => {
+      openSheet(`<h3 class="sheet-title">${t('addWalkin').replace('+ ', '')}</h3><p class="muted small">${t('walkinHint')}</p><label class="lbl" for="wk-name">${t('yourName')}</label><input class="input" id="wk-name" maxlength="40"><button class="btn teal block big" data-act="wkGo">${t('save')}</button>`);
+      setTimeout(() => $('#wk-name')?.focus(), 50);
+      addActs({ wkGo: async () => { const name = $('#wk-name').value.trim(); if (!name) return; const id = uid(); await store.set(`events/${eventId}/attendees/${id}`, { name, building: null, joinedAt: Date.now(), by: 'organizer' }); openRows.add(id); closeSheet(); } });
+    },
+    addFor: el => openMenuBrowser(att(el.dataset.id)),
+    payFor: el => openPaySheet({ eventId, att: att(el.dataset.id), orders, tipPct: ev.tipDefault ?? 10, isOrganizer: true }),
+    waiterFor: el => openWaiterSheet({ att: att(el.dataset.id), orders, tipPct: ev.tipDefault ?? 10 }),
+    undoFor: async el => { const a = att(el.dataset.id); if (!confirm(t('undoConfirm', { name: a.name }))) return; await undoPayments({ eventId, att: a, orders, payments }); },
+    rmOrder: async el => { if (!confirm(t('deleteConfirm'))) return; await store.del(`events/${eventId}/orders/${el.dataset.id}`); toast(t('removed')); },
+    saveBill: async () => { const raw = $('#bill').value; await store.update(`events/${eventId}`, { venueBill: raw === '' ? null : r2(+raw) }); },
+    copyES: () => copyText(summaryText(ev, computeSummary(ev, attendees, orders, payments), 'es')),
+    copyEN: () => copyText(summaryText(ev, computeSummary(ev, attendees, orders, payments), 'en')),
+    csv: () => downloadCSV(ev, attendees, orders),
+    refreshMenu: async () => { const v = await store.get('venues/' + ev.venueId); if (!v) return; await store.update(`events/${eventId}`, { menu: v.menu, venueName: v.name }); toast(t('menuRefreshed')); },
+    closeEv: async () => { if (!confirm(t('closeConfirm'))) return; await store.update(`events/${eventId}`, { status: 'closed', closedAt: Date.now(), summary: computeSummary(ev, attendees, orders, payments) }); },
+    reopenEv: async () => { await store.update(`events/${eventId}`, { status: 'open' }); }
+  });
+
+  function openMenuBrowser(a) {
+    let q = '';
+    const render = () => openSheet(`<h3 class="sheet-title">${esc(t('addFor', { name: a.name }))}</h3>
+      <input class="input" id="mb-q" type="search" placeholder="${esc(t('search'))}" value="${esc(q)}" autocomplete="off" style="margin:10px 0 4px">
+      <div id="mb-list">${menuListHTML(ev.menu, q)}</div><button class="btn ghost block" style="margin-top:14px" data-act="mbCustom">${t('addCustom')}</button>`);
+    render();
+    $('#mb-q').addEventListener('input', e => { q = e.target.value; setHTML('#mb-list', menuListHTML(ev.menu, q)); });
+    addActs({
+      pick: el => { const cat = ev.menu.categories[+el.dataset.c]; closeSheet(); openPickSheet({ eventId, ev, item: cat.items[+el.dataset.i], cat, actor: a, attendees, isOrganizer: true }); },
+      mbCustom: () => { closeSheet(); openCustomSheet({ eventId, ev, actor: a, attendees, isOrganizer: true }); }
+    });
+  }
+  function draw() {
+    if (ev === undefined || !attendees || !orders || !payments) return;
+    if (ev === null) { setHTML('#ea-hero', hero({ title: t('notFound'), back: '#/admin', compact: true })); setHTML('#ea-main', ''); return; }
+    setHTML('#ea-hero', hero({ title: esc(ev.title), sub: `${esc(ev.venueName)} · ${fmtDate(ev.date)} ${statusChip(ev)}`, back: '#/admin', compact: true }));
+    if (!shell) {
+      shell = true;
+      setHTML('#ea-main', `${demoBanner()}
+        <section class="card qr-card"><div class="qr-box" id="qr"></div><div style="min-width:0"><h2 style="margin-bottom:4px">${t('shareQR')}</h2><p class="mono small muted" style="margin:0 0 10px">${esc(url)}</p>
+          <div class="row wrap-row"><button class="btn small" data-act="copyLink">${t('copyLink')}</button><button class="btn small ghost" data-act="bigQR">${t('bigQR')}</button><a class="btn small ghost" href="${esc(url)}" target="_blank" rel="noopener">${t('openAttendee')} ↗</a></div></div></section>
+        <div class="stats" id="ea-stats"></div>
+        <section class="card"><div class="card-head"><h2>${t('people')}</h2><button class="btn small teal" data-act="walkin">${t('addWalkin')}</button></div><div id="ea-people"></div></section>
+        <section class="card"><h2>${t('recon')}</h2><label class="lbl" for="bill">${t('venueBill')}</label><div class="row"><input class="input" id="bill" type="number" inputmode="decimal" placeholder="0" value="${ev.venueBill ?? ''}"><button class="btn" data-act="saveBill">${t('check')}</button></div><div id="ea-recon"></div></section>
+        <section class="card"><h2>${t('report')}</h2><div id="ea-report"></div><div class="btn-stack"><button class="btn teal" data-act="copyES">${t('copyES')}</button><div class="btn-pair" style="margin:0"><button class="btn ghost" data-act="copyEN">${t('copyEN')}</button><button class="btn ghost" data-act="csv">${t('csv')}</button></div></div></section>
+        <section class="card"><h2>${t('menuTools')}</h2><p class="muted small" style="margin:0 0 10px">${t('menuToolsHint')}</p><div class="row wrap-row"><button class="btn small ghost" data-act="refreshMenu">${t('refreshMenu')}</button><a class="btn small ghost" href="#/admin/venue/${ev.venueId}">${t('editMenu')}</a></div></section>
+        <div id="ea-actions"></div>`);
+      drawQR($('#qr'), url, 132);
+      $('#bill').addEventListener('keydown', e => { if (e.key === 'Enter') ACTS.saveBill(); });
+    }
+    const s = computeSummary(ev, attendees, orders, payments);
+    setHTML('#ea-stats', `<div class="stat hl"><span>${t('claimed')}</span><b>${money(s.total)}</b></div><div class="stat"><span>${t('collected')}</span><b>${money(s.collected)}</b></div><div class="stat"><span>${t('outstanding')}</span><b style="color:${s.outstanding > 0 ? 'var(--coral-d)' : 'var(--ok)'}">${money(s.outstanding)}</b></div><div class="stat"><span>${t('tips')}</span><b>${money(s.tips)}</b></div>`);
+    drawPeople();
+    drawRecon(s); drawReport(s);
+    setHTML('#ea-actions', ev.status === 'open' ? `<button class="btn danger block big" data-act="closeEv">${t('closeEvent')}</button>` : `<button class="btn ghost block big" data-act="reopenEv">${t('reopen')}</button>`);
+    // keep a live summary on the event so the Insights tab stays current
+    const key = JSON.stringify(s);
+    if (key !== lastSummary && key !== JSON.stringify(ev.summary || null)) { lastSummary = key; clearTimeout(sumTimer); sumTimer = setTimeout(() => store.update(`events/${eventId}`, { summary: s }).catch(() => {}), 3000); }
+  }
+  function drawPeople() {
+    if (!attendees.length) { setHTML('#ea-people', `<div class="empty">📱 ${t('shareQR')}</div>`); return; }
+    setHTML('#ea-people', attendees.map(a => {
+      const tot = personTotals(a.id, orders), isOpen = openRows.has(a.id);
+      const right = tot.unpaid > 0 ? `<span class="owe">${money(tot.unpaid)}</span>` : (tot.all > 0 ? `<span class="settled">${t('allPaid')}</span>` : `<span class="muted small">${t('noOrders')}</span>`);
+      return `<div class="person"><button class="person-head" data-act="row" data-id="${a.id}" aria-expanded="${isOpen}"><span class="avatar">${esc(initials(a.name))}</span><span style="flex:1;min-width:0"><b>${esc(a.name)}</b>${a.building ? `<span class="item-sub">${esc(a.building)}</span>` : ''}</span>${right}</button>
+        ${isOpen ? `<div class="person-body">${tot.lines.map(l => `<div class="line ${l.paid ? 'paid' : ''}"><div class="line-main"><div class="line-name">${esc(orderLabel(l.o))}</div><div class="line-meta">${l.o.qty} × ${money(l.o.unitPrice)}${l.o.shares.length > 1 ? ' · ' + t('splitN', { n: l.o.shares.length }) : ''}</div></div><div class="line-amt">${l.paid ? '<span class="tick">✓</span> ' : ''}${money(l.amount)}</div>${!l.paid ? `<button class="x-btn" data-act="rmOrder" data-id="${l.o.id}" aria-label="${t('delete')}">✕</button>` : ''}</div>`).join('')}
+          <div class="row wrap-row" style="margin-top:10px"><button class="btn small teal" data-act="addFor" data-id="${a.id}">${t('addItem')}</button>${tot.unpaid > 0 ? `<button class="btn small coral" data-act="payFor" data-id="${a.id}">${t('markPaid')}</button><button class="btn small ghost" data-act="waiterFor" data-id="${a.id}">${t('waiter')}</button>` : ''}${tot.paid > 0 ? `<button class="btn small ghost" data-act="undoFor" data-id="${a.id}">${t('undoPaid')}</button>` : ''}</div></div>` : ''}</div>`;
+    }).join(''));
+  }
+  function drawRecon(s) {
+    if (ev.venueBill === null || ev.venueBill === undefined) { setHTML('#ea-recon', `<p class="muted small" style="margin:10px 0 0">${t('noBill')}</p>`); return; }
+    const diff = r2(ev.venueBill - s.total);
+    const cls = Math.abs(diff) < 1 ? 'ok' : diff > 0 ? 'bad' : 'warn';
+    const msg = Math.abs(diff) < 1 ? t('balanced') : diff > 0 ? t('unclaimed', { amt: money(diff) }) : t('overclaimed', { amt: money(-diff) });
+    setHTML('#ea-recon', `<div class="recon ${cls}">${msg}</div><div class="totals" style="margin-top:8px"><div class="tot-row"><span>${t('venueBill')}</span><span>${money(ev.venueBill)}</span></div><div class="tot-row"><span>${t('claimed')}</span><span>${money(s.total)}</span></div><div class="tot-row"><span>${t('collected')}</span><span>${money(s.collected)}</span></div></div>`);
+  }
+  function drawReport(s) {
+    if (!s.orders) { setHTML('#ea-report', `<div class="empty">${t('noOrders')}</div>`); return; }
+    const maxCat = Math.max(...s.byCat.map(c => c.amount), 1), maxH = Math.max(...s.byHour.map(h => h.n), 1);
+    setHTML('#ea-report', `<div class="stats" style="margin-bottom:6px"><div class="stat"><span>${t('peopleN')}</span><b>${s.attendees}</b></div><div class="stat"><span>${t('avgPerson')}</span><b>${money(s.avg)}</b></div></div>
+      <span class="lbl">${t('byCategory')}</span>${s.byCat.map(c => `<div class="bar-row"><span>${esc(nm(c))}</span><b>${money(c.amount)}</b><div class="bar"><i style="width:${(c.amount / maxCat * 100).toFixed(1)}%"></i></div></div>`).join('')}
+      <span class="lbl">${t('topItems')}</span>${s.top.map(x => `<div class="tot-row" style="color:var(--ink)"><span>${x.qty} × ${esc(lang === 'en' ? x.en : x.es)}</span><span>${money(x.amount)}</span></div>`).join('')}
+      ${s.byHour.length ? `<span class="lbl">${t('arrivals')}</span>${s.byHour.map(h => `<div class="bar-row"><span>${String(h.h).padStart(2, '0')}:00</span><b>${h.n}</b><div class="bar"><i style="width:${(h.n / maxH * 100).toFixed(1)}%"></i></div></div>`).join('')}` : ''}`);
+  }
+}
+
+/* ============================== router ============================== */
+const ROUTES = [
+  [/^#?\/?$/, viewHome],
+  [/^#\/admin\/?$/, viewAdmin],
+  [/^#\/admin\/venue\/([\w-]+)$/, viewVenue],
+  [/^#\/admin\/e\/([\w-]+)$/, viewEventAdmin],
+  [/^#\/e\/([\w-]+)$/, viewAttendee]
+];
+function route() {
+  cleanups.forEach(f => { try { f(); } catch (e) {} }); cleanups = [];
+  closeSheet(); setActs({});
+  const h = location.hash || '#/';
+  for (const [re, fn] of ROUTES) { const m = h.match(re); if (m) { fn(...m.slice(1)); window.scrollTo(0, 0); return; } }
+  viewHome();
+}
+window.addEventListener('hashchange', route);
+
+(async () => {
+  try { store = DEMO ? makeLocalStore() : await makeFirebaseStore(); }
+  catch (e) {
+    console.error(e);
+    $('#app').innerHTML = hero({ title: 'Firebase ⚠️', sub: esc(e.code || e.message) }) + `<main class="wrap"><section class="card"><p>Check the config in index.html, that Firestore is created, and that Anonymous sign-in is enabled (see SETUP.md).</p></section></main>`;
+    return;
+  }
+  route();
+})();
+</script>
+</body>
+</html>
