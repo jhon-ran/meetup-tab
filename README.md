@@ -45,10 +45,11 @@ The Día & Noche Beach Club (Puerto Morelos) menu is pre-loaded the first time t
 |---|---|
 | **App** | One static `index.html`: vanilla JS, ES modules, no build step |
 | **Backend** | Firebase Firestore (live sync) + Firebase Anonymous Auth, Spark (free) plan |
-| **Libraries (CDN)** | Firebase JS SDK 10.12.2 (gstatic), qrcodejs 1.0.0 (cdnjs), Google Fonts: Bricolage Grotesque + DM Sans |
+| **Libraries (CDN)** | Firebase JS SDK 10.12.2 (gstatic), qrcodejs 1.0.0 (cdnjs), Google Fonts: Bungee (display) + Archivo (text) |
 | **Hosting** | GitHub Pages (any static host works) |
 | **Routing** | Hash router: `#/` home · `#/e/{eventId}` attendee · `#/admin` organizer · `#/admin/e/{eventId}` event control · `#/admin/venue/{venueId}` menu editor |
 | **Layout** | Mobile-first, max width 560 px, light theme only (it's read outdoors in sunlight) |
+| **Look** | Caribbean turquoise, rosa mexicano, sun yellow and navy; papel picado header, sign-painted headings, and "My tab" styled as a comanda (order ticket) |
 | **Currency** | MXN. Menu prices already include IVA, so no tax is added. Tip is a percentage of each person's own subtotal |
 | **Demo mode** | If `CONFIG.firebase.apiKey` starts with `PASTE`, the app stores data in `localStorage` on one device and shows a banner |
 
