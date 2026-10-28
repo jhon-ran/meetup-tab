@@ -98,7 +98,10 @@ const DICT = {
     noInsights: 'Numbers appear here once a meetup has orders.', meetupsN: 'meetups', peopleN: 'people', notFound: 'Meetup not found.',
     loading: 'Loading…', perPerson: '{amt} each', addedBy: 'added by {name}', other: 'Other', emptyCat: 'No items yet.',
     venueTotal: 'Total spend', noOrders: 'No orders yet', copyFail: 'Couldn’t copy. Long-press to copy instead.',
-    pinHint: 'Only the organizer needs this.', joinBtn: 'Join'
+    pinHint: 'Only the organizer needs this.', joinBtn: 'Join',
+    venueView: 'Venue view', venueViewHint: 'A live, read-only page for the venue: totals, each person’s tab and everything ordered. Nothing can be changed from it.',
+    copyVenueLink: 'Copy venue link', openVenueView: 'Open venue view', venueLead: 'Live view of the Riviera Maya Tech Builders table. It updates by itself, and nothing can be changed here.',
+    venueLinkInvalid: 'This venue link isn’t valid. Ask the organizer for a new one.', orderedItems: 'Ordered items', personTabs: 'Each person’s tab', paidWith: 'Paid'
   },
   es: {
     appName: 'Cuenta del Meetup', tagline: 'Pide lo que quieras. Paga lo que consumiste.',
@@ -140,7 +143,10 @@ const DICT = {
     noInsights: 'Los números aparecen cuando un meetup tiene pedidos.', meetupsN: 'meetups', peopleN: 'personas', notFound: 'No encontramos ese meetup.',
     loading: 'Cargando…', perPerson: '{amt} c/u', addedBy: 'agregado por {name}', other: 'Otro', emptyCat: 'Sin productos aún.',
     venueTotal: 'Consumo total', noOrders: 'Sin pedidos aún', copyFail: 'No se pudo copiar. Mantén presionado para copiar.',
-    pinHint: 'Solo lo necesita quien organiza.', joinBtn: 'Entrar'
+    pinHint: 'Solo lo necesita quien organiza.', joinBtn: 'Entrar',
+    venueView: 'Vista del lugar', venueViewHint: 'Una página en vivo y solo de lectura para el lugar: totales, la cuenta de cada persona y todo lo pedido. Desde ahí no se puede cambiar nada.',
+    copyVenueLink: 'Copiar enlace del lugar', openVenueView: 'Abrir vista del lugar', venueLead: 'Vista en vivo de la mesa de Riviera Maya Tech Builders. Se actualiza sola y aquí no se puede modificar nada.',
+    venueLinkInvalid: 'Este enlace no es válido. Pide uno nuevo a quien organiza.', orderedItems: 'Productos pedidos', personTabs: 'Cuenta por persona', paidWith: 'Pagó'
   }
 };
 let lang = ls.get('rmtb_lang') || ((navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en');
@@ -367,8 +373,8 @@ async function copyText(text) {
   try { document.execCommand('copy'); toast(t('copied')); } catch (e) { toast(t('copyFail')); } ta.remove();
 }
 
-function hero({ title, sub = '', back = null, compact = false }) {
-  const left = back ? `<a class="icon-btn" href="${back}" aria-label="Back">←</a>` : `<a class="brand" href="#/"><span class="brand-dot"></span>Riviera Maya Tech Builders</a>`;
+function hero({ title, sub = '', back = null, compact = false, noHome = false }) {
+  const left = back ? `<a class="icon-btn" href="${back}" aria-label="Back">←</a>` : noHome ? `<span class="brand"><span class="brand-dot"></span>Riviera Maya Tech Builders</span>` : `<a class="brand" href="#/"><span class="brand-dot"></span>Riviera Maya Tech Builders</a>`;
   return `<header class="hero ${compact ? 'compact' : ''}"><nav class="topbar"><div class="topbar-inner">${left}<div class="hero-actions">
     <button class="lang" data-act="lang" aria-label="Language / Idioma"><span class="${lang === 'en' ? 'on' : ''}">EN</span><span class="${lang === 'es' ? 'on' : ''}">ES</span></button></div></div></nav>
     <div class="hero-inner"><h1>${title}</h1>${sub ? `<p class="hero-sub">${sub}</p>` : ''}</div></header>`;
@@ -842,9 +848,13 @@ function viewEventAdmin(eventId) {
   cleanups.push(store.onCol(`events/${eventId}/payments`, d => { payments = d; draw(); }));
   cleanups.push(() => clearTimeout(sumTimer));
   const att = id => attendees.find(a => a.id === id);
+  // the venue link carries a random key stored on the event, created the first time it's shared
+  const ensureVenueKey = async () => { if (ev.venueKey) return ev.venueKey; const k = rand(8); await store.update(`events/${eventId}`, { venueKey: k }); ev.venueKey = k; return k; };
 
   setActs({
     copyLink: () => copyText(url),
+    venueLink: async () => copyText(venueUrl(eventId, await ensureVenueKey())),
+    venueOpen: async () => { const w = window.open('', '_blank'); const u = venueUrl(eventId, await ensureVenueKey()); if (w) w.location.href = u; else location.href = u; },
     bigQR: () => { openSheet(`<div class="center"><h3 class="sheet-title">${t('shareQR')}</h3><p class="muted" style="margin:2px 0 0">${t('shareQRes')}</p><div class="qr-big"><div class="qr-box" id="qr-big"></div></div><p class="mono small">${esc(url)}</p><button class="btn ghost block" data-act="closeSheet">${t('close')}</button></div>`); drawQR($('#qr-big'), url, Math.min(300, window.innerWidth - 90)); },
     row: el => { const id = el.dataset.id; openRows.has(id) ? openRows.delete(id) : openRows.add(id); drawPeople(); },
     walkin: () => {
@@ -887,6 +897,7 @@ function viewEventAdmin(eventId) {
       setHTML('#ea-main', `${demoBanner()}
         <section class="card qr-card"><div class="qr-box" id="qr"></div><div style="min-width:0"><h2 style="margin-bottom:4px">${t('shareQR')}</h2><p class="mono small muted" style="margin:0 0 10px">${esc(url)}</p>
           <div class="row wrap-row"><button class="btn small" data-act="copyLink">${t('copyLink')}</button><button class="btn small ghost" data-act="bigQR">${t('bigQR')}</button><a class="btn small ghost" href="${esc(url)}" target="_blank" rel="noopener">${t('openAttendee')} ↗</a></div></div></section>
+        <section class="card"><h2>${t('venueView')}</h2><p class="muted small" style="margin:0 0 10px">${t('venueViewHint')}</p><div class="row wrap-row"><button class="btn small teal" data-act="venueLink">${t('copyVenueLink')}</button><button class="btn small ghost" data-act="venueOpen">${t('openVenueView')} ↗</button></div></section>
         <div class="stats" id="ea-stats"></div>
         <section class="card"><div class="card-head"><h2>${t('people')}</h2><button class="btn small teal" data-act="walkin">${t('addWalkin')}</button></div><div id="ea-people"></div></section>
         <section class="card"><h2>${t('recon')}</h2><label class="lbl" for="bill">${t('venueBill')}</label><div class="row"><input class="input" id="bill" type="number" inputmode="decimal" placeholder="0" value="${ev.venueBill ?? ''}"><button class="btn" data-act="saveBill">${t('check')}</button></div><div id="ea-recon"></div></section>
@@ -932,13 +943,60 @@ function viewEventAdmin(eventId) {
   }
 }
 
+/* ----------------------- venue view (read-only) ----------------------- */
+const venueUrl = (id, key) => location.origin + location.pathname + '#/v/' + id + '/' + key;
+function viewVenueRead(eventId, key) {
+  // venue staff get Spanish unless this browser already picked a language
+  if (!ls.get('rmtb_lang') && lang !== 'es') { lang = 'es'; document.documentElement.lang = 'es'; }
+  let ev, attendees, orders, payments;
+  $('#app').innerHTML = `<div id="vr-hero"></div><main class="wrap" id="vr-main"><p class="muted">${t('loading')}</p></main>`;
+  cleanups.push(store.onDoc(`events/${eventId}`, d => { ev = d; draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/attendees`, d => { attendees = d.sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0)); draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/orders`, d => { orders = d.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); draw(); }));
+  cleanups.push(store.onCol(`events/${eventId}/payments`, d => { payments = d; draw(); }));
+  function draw() {
+    if (ev === undefined || !attendees || !orders || !payments) return;
+    if (!ev || !ev.venueKey || ev.venueKey !== key) {
+      setHTML('#vr-hero', hero({ title: t('venueView'), compact: true, noHome: true }));
+      setHTML('#vr-main', `<section class="card"><div class="empty">${t('venueLinkInvalid')}</div></section>`);
+      return;
+    }
+    const s = computeSummary(ev, attendees, orders, payments);
+    setHTML('#vr-hero', hero({ title: esc(ev.venueName), sub: `${esc(ev.title)}, ${fmtDate(ev.date)} ${statusChip(ev)}`, compact: true, noHome: true }));
+    let recon = '';
+    if (ev.venueBill !== null && ev.venueBill !== undefined) {
+      const diff = r2(ev.venueBill - s.total);
+      const cls = Math.abs(diff) < 1 ? 'ok' : diff > 0 ? 'bad' : 'warn';
+      const msg = Math.abs(diff) < 1 ? t('balanced') : diff > 0 ? t('unclaimed', { amt: money(diff) }) : t('overclaimed', { amt: money(-diff) });
+      recon = `<section class="card"><h2>${t('recon')}</h2><div class="recon ${cls}">${msg}</div><div class="totals" style="margin-top:8px"><div class="tot-row"><span>${t('venueBill')}</span><span>${money(ev.venueBill)}</span></div><div class="tot-row"><span>${t('claimed')}</span><span>${money(s.total)}</span></div></div></section>`;
+    }
+    const people = attendees.map(a => {
+      const tot = personTotals(a.id, orders);
+      const right = tot.unpaid > 0 ? `<span class="owe">${money(tot.unpaid)}</span>` : (tot.all > 0 ? `<span class="settled">${t('allPaid')}</span>` : `<span class="muted small">${t('noOrders')}</span>`);
+      const pays = payments.filter(p => p.attendeeId === a.id).map(p => `${t('paidWith')}: ${t(p.method)} ${money(p.total)}`).join(' · ');
+      const lines = tot.lines.map(l => `<div class="line ${l.paid ? 'paid' : ''}"><div class="line-main"><div class="line-name">${esc(orderLabel(l.o))}</div><div class="line-meta">${l.o.qty} × ${money(l.o.unitPrice)}${l.o.shares.length > 1 ? ' · ' + t('splitN', { n: l.o.shares.length }) : ''}${l.o.note ? ' · “' + esc(l.o.note) + '”' : ''}</div></div><div class="line-amt">${l.paid ? '<span class="tick">✓</span> ' : ''}${money(l.amount)}</div></div>`).join('');
+      return `<div class="person"><div class="person-head"><span class="avatar">${esc(initials(a.name))}</span><span style="flex:1;min-width:0"><b>${esc(a.name)}</b>${pays ? `<span class="item-sub">${esc(pays)}</span>` : ''}</span>${right}</div>${lines ? `<div class="person-body">${lines}</div>` : ''}</div>`;
+    }).join('');
+    const tally = {};
+    orders.forEach(o => { const k = orderLabel(o); tally[k] = tally[k] || { label: k, qty: 0, amount: 0 }; tally[k].qty += o.qty; tally[k].amount += o.unitPrice * o.qty; });
+    const items = Object.values(tally).sort((a, b) => b.qty - a.qty || b.amount - a.amount);
+    setHTML('#vr-main', `<p class="muted small" style="margin:0 0 14px">${t('venueLead')}</p>
+      <div class="stats"><div class="stat hl"><span>${t('claimed')}</span><b>${money(s.total)}</b></div><div class="stat"><span>${t('collected')}</span><b>${money(s.collected)}</b></div><div class="stat"><span>${t('outstanding')}</span><b style="color:${s.outstanding > 0 ? 'var(--coral-d)' : 'var(--ok)'}">${money(s.outstanding)}</b></div><div class="stat"><span>${t('tips')}</span><b>${money(s.tips)}</b></div></div>
+      ${recon}
+      <section class="card"><div class="card-head"><h2>${t('personTabs')}</h2><span class="muted small">${s.attendees} ${t('peopleN')}</span></div>${people || `<div class="empty">${t('noOrders')}</div>`}</section>
+      <section class="card"><h2>${t('orderedItems')}</h2>${items.length ? items.map(x => `<div class="tot-row" style="color:var(--ink)"><span>${x.qty} × ${esc(x.label)}</span><span>${money(x.amount)}</span></div>`).join('') : `<div class="empty">${t('noOrders')}</div>`}</section>
+      <p class="footer-note">Riviera Maya Tech Builders · rivieramaya.tech</p>`);
+  }
+}
+
 /* ============================== router ============================== */
 const ROUTES = [
   [/^#?\/?$/, viewHome],
   [/^#\/admin\/?$/, viewAdmin],
   [/^#\/admin\/venue\/([\w-]+)$/, viewVenue],
   [/^#\/admin\/e\/([\w-]+)$/, viewEventAdmin],
-  [/^#\/e\/([\w-]+)$/, viewAttendee]
+  [/^#\/e\/([\w-]+)$/, viewAttendee],
+  [/^#\/v\/([\w-]+)\/([\w-]+)$/, viewVenueRead]
 ];
 function route() {
   cleanups.forEach(f => { try { f(); } catch (e) {} }); cleanups = [];

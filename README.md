@@ -37,6 +37,11 @@ No money passes through the app. People pay the venue directly, and the app only
 - **Venues:** a menu editor (categories, items, sizes, choices, notes) and JSON import/export. For a new venue, **Copy AI prompt** gives you a prompt to paste into Claude with photos of the menu; paste the JSON it returns back in.
 - **Insights:** spend, attendees and average per person across meetups, grouped by venue.
 
+### For the venue (read-only link)
+- In the meetup's organizer screen, **Copy venue link** creates a private link (`#/v/{meetup}/{key}`) to send to the host or manager.
+- The page shows, live: ordered / paid / outstanding / tips, the venue-bill check (once the organizer enters it), **each person's tab** with what's paid and how (cash, card, transfer), and a **tally of everything ordered** to check against the venue's own system.
+- Nothing can be changed from it. It opens in Spanish by default, with the EN/ES toggle.
+
 The Día & Noche Beach Club (Puerto Morelos) menu is pre-loaded the first time the organizer page opens.
 
 ## Specs
@@ -47,7 +52,7 @@ The Día & Noche Beach Club (Puerto Morelos) menu is pre-loaded the first time t
 | **Backend** | Firebase Firestore (live sync) + Firebase Anonymous Auth, Spark (free) plan |
 | **Libraries (CDN)** | Firebase JS SDK 10.12.2 (gstatic), qrcodejs 1.0.0 (cdnjs), Google Fonts: Inter |
 | **Hosting** | GitHub Pages (any static host works) |
-| **Routing** | Hash router: `#/` home · `#/e/{eventId}` attendee · `#/admin` organizer · `#/admin/e/{eventId}` event control · `#/admin/venue/{venueId}` menu editor |
+| **Routing** | Hash router: `#/` home · `#/e/{eventId}` attendee · `#/v/{eventId}/{key}` venue (read-only) · `#/admin` organizer · `#/admin/e/{eventId}` event control · `#/admin/venue/{venueId}` menu editor |
 | **Layout** | Mobile-first, max width 560 px, light theme only (it's read outdoors in sunlight) |
 | **Look** | Matches [rivieramaya.tech](https://rivieramaya.tech): same design tokens (Inter, sea/sand gradient, teal pill buttons, glass cards, sand meetup card for "My tab") and the site's favicon |
 | **Currency** | MXN. Menu prices already include IVA, so no tax is added. Tip is a percentage of each person's own subtotal |
@@ -57,7 +62,7 @@ The Día & Noche Beach Club (Puerto Morelos) menu is pre-loaded the first time t
 ```
 venues/{venueId}                 name, location, menu, createdAt, updatedAt
 events/{eventId}                 title, date, venueId, venueName, venueLocation, menu (snapshot),
-                                 status (open|closed), tipDefault, venueBill, summary, createdAt, closedAt
+                                 status (open|closed), tipDefault, venueBill, venueKey, summary, createdAt, closedAt
 events/{id}/attendees/{attId}    name, building, joinedAt, by (self|organizer)
 events/{id}/orders/{orderId}     item + variant/option names (es/en), category, unitPrice, qty, note,
                                  shares [attIds], paid {attId: timestamp|null}, createdBy, byOrganizer, createdAt
@@ -103,6 +108,7 @@ Use `variants` when sizes have different prices, and `options` for choices at th
 - Anyone with the link can tap an existing name and act as that person. That's fine for a trusted community.
 - The Firestore rules let any signed-in anonymous user read and write everything.
 - Tabs are self-reported. The bill check is the safety net.
+- The venue link is read-only in the interface, but the key is only checked in the browser, like the PIN.
 - There's no "delete meetup" button yet. To delete one, use the Firestore console.
 
 ---
