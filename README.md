@@ -43,13 +43,13 @@ The Día & Noche Beach Club (Puerto Morelos) menu is pre-loaded the first time t
 
 | | |
 |---|---|
-| **App** | One static `index.html`: vanilla JS, ES modules, no build step |
+| **App** | Static files, no build step: `index.html` (markup + vanilla JS, ES modules) and `style.css` (all styles) |
 | **Backend** | Firebase Firestore (live sync) + Firebase Anonymous Auth, Spark (free) plan |
-| **Libraries (CDN)** | Firebase JS SDK 10.12.2 (gstatic), qrcodejs 1.0.0 (cdnjs), Google Fonts: Bungee (display) + Archivo (text) |
+| **Libraries (CDN)** | Firebase JS SDK 10.12.2 (gstatic), qrcodejs 1.0.0 (cdnjs), Google Fonts: Inter |
 | **Hosting** | GitHub Pages (any static host works) |
 | **Routing** | Hash router: `#/` home · `#/e/{eventId}` attendee · `#/admin` organizer · `#/admin/e/{eventId}` event control · `#/admin/venue/{venueId}` menu editor |
 | **Layout** | Mobile-first, max width 560 px, light theme only (it's read outdoors in sunlight) |
-| **Look** | Caribbean turquoise, rosa mexicano, sun yellow and navy; papel picado header, sign-painted headings, and "My tab" styled as a comanda (order ticket) |
+| **Look** | Matches [rivieramaya.tech](https://rivieramaya.tech): same design tokens (Inter, sea/sand gradient, teal pill buttons, glass cards, sand meetup card for "My tab") and the site's favicon |
 | **Currency** | MXN. Menu prices already include IVA, so no tax is added. Tip is a percentage of each person's own subtotal |
 | **Demo mode** | If `CONFIG.firebase.apiKey` starts with `PASTE`, the app stores data in `localStorage` on one device and shows a banner |
 
@@ -89,7 +89,7 @@ Use `variants` when sizes have different prices, and `options` for choices at th
    }
    ```
 3. **Configure:** register a web app, paste its config into `CONFIG.firebase` at the top of the `<script type="module">` in `index.html`, and set `CONFIG.organizerPin`.
-4. **Host:** push `index.html` to GitHub Pages (or any static host), then add the host's domain under **Authentication → Settings → Authorized domains**.
+4. **Host:** push `index.html` and `style.css` to GitHub Pages (or any static host), then add the host's domain under **Authentication → Settings → Authorized domains**.
 
 ## Meetup-night run-sheet
 1. Open `/#/admin`, enter the PIN, then **+ New meetup**, pick the date and venue, and **Create**.
